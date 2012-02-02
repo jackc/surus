@@ -44,6 +44,8 @@ describe Hstore::Serializer do
     [BigDecimal("0"), "BigDecimal 0"],
     [BigDecimal("1"), "positive BigDecimal"],
     [BigDecimal("-1"), "negative BigDecimal"],
+    [true, "true"],
+    [false, "false"],
     [Date.today, "date"]
   ].each do |value, description|
     round_trip_examples << [{"foo" => value}, "value is #{description}"]

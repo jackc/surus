@@ -115,6 +115,10 @@ module Hstore
         [value.to_s, "BigDecimal"]
       elsif value.kind_of?(Date)
         [value.to_s(:db), "Date"]
+      elsif value.kind_of?(TrueClass)
+        [value.to_s, "TrueClass"]
+      elsif value.kind_of?(FalseClass)
+        [value.to_s, "FalseClass"]
       elsif value == nil
         [nil, "String"] # we don't actually stringify nil because format_value special cases nil
       else
@@ -132,6 +136,10 @@ module Hstore
         BigDecimal(value)
       when "Date"
         Date.parse(value)
+      when "TrueClass"
+        true
+      when "FalseClass"
+        false
       else
         raise ArgumentError, "Can't typecast: #{type}"
       end
