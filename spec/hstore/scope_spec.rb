@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Hstore::Scope do
+describe Surus::Hstore::Scope do
   let!(:empty) { HstoreRecord.create! :properties => {} }
 
   context "hstore_has_pairs" do

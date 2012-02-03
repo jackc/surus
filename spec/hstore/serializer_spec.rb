@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Hstore::Serializer do
+describe Surus::Hstore::Serializer do
   round_trip_examples = [
     [nil, "nil"],
     [{}, "empty hash"],
