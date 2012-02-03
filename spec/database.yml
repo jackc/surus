@@ -1,4 +1,4 @@
 test:
   adapter: postgresql
   encoding: unicode
-  database: ar_pg_test
+  database: surus_test
