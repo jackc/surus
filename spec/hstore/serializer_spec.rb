@@ -30,6 +30,7 @@ describe Surus::Hstore::Serializer do
   end
   
   [
+    [:foo, "symbol"],
     [0, "integer 0"],
     [1, "positive integer"],
     [-1, "negative integer"],

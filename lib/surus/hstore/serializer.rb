@@ -108,6 +108,8 @@ module Surus
       def stringify(value)
         if value.kind_of?(String)
           [value, "String"]
+        elsif value.kind_of?(Symbol)
+          [value.to_s, "Symbol"]
         elsif value.kind_of?(Integer)
           [value.to_s, "Integer"]
         elsif value.kind_of?(Float)
@@ -129,6 +131,8 @@ module Surus
       
       def typecast(value, type)
         case type
+        when "Symbol"
+          value.to_sym
         when "Integer"
           Integer(value)
         when "Float"
