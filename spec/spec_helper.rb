@@ -31,7 +31,7 @@ end
 
 
 RSpec.configure do |config|
-  config.around do |example|
+  config.around :disable_transactions => nil do |example|
     ActiveRecord::Base.transaction do
       example.call
       raise ActiveRecord::Rollback
