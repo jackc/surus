@@ -1,0 +1,4 @@
+bench:
+  adapter: postgresql
+  encoding: unicode
+  database: surus_bench
