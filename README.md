@@ -5,13 +5,13 @@ Surus
 
 Surus extends ActiveRecord with PostgreSQL specific functionality. It includes
 hstore and array serializers and helper scopes. It also includes a helper to
-control PostgreSQL synchronous commit behavior
+control PostgreSQL synchronous commit behavior.
 
 # Installation
 
     gem install surus
     
-    or add to your Gemfile
+Or add to your Gemfile.
     
     gem 'surus'
 
@@ -23,6 +23,8 @@ type that can be indexed for fast searching.
     class User < ActiveRecord::Base
       serialize :properties, Surus::Hstore::Serializer.new
     end
+    
+    User.create :properties => { :favorite_color => "green", :results_per_page => 20 }
     
 Even though the underlying hstore can only use strings for keys and values
 (and NULL for values) Surus can successfully maintain type for integers,
@@ -50,6 +52,11 @@ for text, integer, float, and decimal arrays.
       serialize :favorite_floats, Surus::Array::FloatSerializer.new
       serialize :favorite_decimals, Surus::Array::DecimalSerializer.new
     end
+    
+    User.create :permissions => %w{ read_notes write_notes, manage_topics },
+      :favorite_integers => [1, 2, 3],
+      :favorite_floats => [1.3, 2.2, 3.1],
+      :favorite_decimals => [BigDecimal("3.14"), BigDecimal("4.23"]
     
 Arrays can be searched with helper scopes.
 

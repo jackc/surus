@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
   s.email       = ["jack@jackchristensen.com"]
   s.homepage    = "https://github.com/JackC/surus"
   s.summary     = %q{PostgreSQL extensions for ActiveRecord}
-  s.description = %q{PostgreSQL extensions for ActiveRecord}
+  s.description = %q{Includes serializers and search scopes for hstore and array. Also includes control over synchronous_commit to boost insert and update speed.}
 
   s.rubyforge_project = ""
 
