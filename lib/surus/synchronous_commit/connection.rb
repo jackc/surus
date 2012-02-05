@@ -1,6 +1,10 @@
 module Surus
   module SynchronousCommit
     module Connection
+      # When called without any value returns the current synchronous_commit
+      # value.
+      #
+      # When called with a value it is delegated to #synchronous_commit=
       def synchronous_commit(value=:not_passed_param)
         if value == :not_passed_param
           select_value("SHOW synchronous_commit") == "on"
@@ -9,6 +13,10 @@ module Surus
         end
       end
       
+      # Changes current synchronous_commit state. If a transaction is currently
+      # in progress the change will be reverted at the end of the transaction.
+      #
+      # Requires true or false to be passed exactly -- not merely truthy or falsy
       def synchronous_commit=(value)
         raise ArgumentError, "argument must be true or false" unless value == true || value == false
         
