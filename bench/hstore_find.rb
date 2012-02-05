@@ -69,12 +69,13 @@ if yaml
   puts "Done."
 end
 
-puts
-puts
-puts "Finding all records by inclusion of a key from #{num_records} records with #{num_key_value_pairs} string key/value pairs"
 
-num_finds = 50
+num_finds = 200
 keys_to_find = key_value_pairs.sample(num_finds).map { |h| h.keys.sample }
+
+puts
+puts "#{num_records} records with #{num_key_value_pairs} string key/value pairs"
+puts "Finding all by inclusion of a key #{num_finds} times"
 
 Benchmark.bm(8) do |x|
   if eav

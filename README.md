@@ -79,6 +79,65 @@ entire session or per transaction.
     User.synchronous_commit false
     
 Read more in the [PostgreSQL asynchronous commit documentation](http://www.postgresql.org/docs/9.1/interactive/wal-async-commit.html).
+
+# Benchmarks
+
+Using PostgreSQL's hstore enables searches to be done quickly in the database.
+
+    jack@moya:~/work/surus$ ruby -I lib -I bench bench/hstore_find.rb
+    Skipping EAV test. Use -e to enable (VERY SLOW!)
+    Skipping YAML test. Use -y to enable (VERY SLOW!)
+    Creating Surus test data... Done.
+
+    2000 records with 5 string key/value pairs
+    Finding all by inclusion of a key 200 times
+                   user     system      total        real
+    Surus      0.120000   0.030000   0.150000 (  0.356240)
+
+Arrays are also searchable.
+
+    jack@moya:~/work/surus$ ruby -I lib -I bench bench/array_find.rb
+    Skipping YAML test. Use -y to enable (VERY SLOW!)
+    Creating Surus test data... Done.
+
+    2000 records with 10 element arrays
+    Finding all where array includes value 200 times
+                   user     system      total        real
+    Surus      0.120000   0.040000   0.160000 (  0.531735)
+
+Disabling synchronous commit can improve commit speed by 50% or more.
+
+    jack@moya:~/work/surus$ ruby -I lib -I bench bench/synchronous_commit.rb
+    Generating random data before test to avoid bias... Done.
+
+    Writing 1000 narrow records
+                                         user     system      total        real
+    enabled                          0.550000   0.870000   1.420000 (  3.025896)
+    disabled                         0.700000   0.580000   1.280000 (  1.788585)
+    disabled per transaction         0.870000   0.580000   1.450000 (  2.072150)
+    enabled / single transaction     0.700000   0.330000   1.030000 (  1.280455)
+    disabled / single transaction    0.660000   0.340000   1.000000 (  1.252301)
+
+    Writing 1000 wide records
+                                         user     system      total        real
+    enabled                          1.030000   0.870000   1.900000 (  3.559709)
+    disabled                         0.930000   0.780000   1.710000 (  2.259340)
+    disabled per transaction         0.970000   0.850000   1.820000 (  2.478290)
+    enabled / single transaction     0.890000   0.500000   1.390000 (  1.693629)
+    disabled / single transaction    0.820000   0.450000   1.270000 (  1.554767)
+    
+Many more benchmarks are in the bench directory. Most accept parameters to
+adjust the amount of test data.
+    
+## Running the benchmarks
+    
+1. Create a database
+2. Configure bench/database.yml to connect to it.
+3. Load bench/database_structure.sql into your bench database.
+4. Run benchmark scripts from root of gem directory (remember pass ruby
+   the include paths for lib and bench)
+
+
     
 # License
 

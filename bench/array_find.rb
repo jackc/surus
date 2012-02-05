@@ -12,7 +12,7 @@ optparse = OptionParser.new do |opts|
     options[:elements] = n
   end
   
-  options[:finds] = 100
+  options[:finds] = 200
   opts.on '-f NUM', '--finds NUM', Integer, 'Number of finds to perform' do |n|
     options[:finds] = n
   end   
@@ -57,8 +57,8 @@ if yaml
 end
 
 puts
-puts
-puts "Finding all records by inclusion of a value from #{num_records} records with #{num_elements} element arrays #{num_finds} times"
+puts "#{num_records} records with #{num_elements} element arrays"
+puts "Finding all where array includes value #{num_finds} times"
 
 values_to_find = arrays.sample(num_finds).map { |a| a.sample }
 
