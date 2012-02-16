@@ -47,7 +47,9 @@ describe Surus::Hstore::Serializer do
     [BigDecimal("-1"), "negative BigDecimal"],
     [true, "true"],
     [false, "false"],
-    [Date.today, "date"]
+    [Date.today, "date"],
+    [{"foo" => [1,2,3], "bar" => {"baz" => 42}}, "nested hash"],
+    [[1,2,3], "array"]
   ].each do |value, description|
     round_trip_examples << [{"foo" => value}, "value is #{description}"]
     round_trip_examples << [{value => "bar"}, "key is #{description}"]

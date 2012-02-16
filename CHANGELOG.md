@@ -1,3 +1,7 @@
+# 0.3.0 (February 16, 2012)
+
+* Can now round-trip any value YAML can dump and load as an hstore key or value
+
 # 0.2.0 (February 4, 2012)
 
 * Added symbol to types that are successfully round-tripped as hstore keys and values

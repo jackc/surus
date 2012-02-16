@@ -125,7 +125,7 @@ module Surus
         elsif value == nil
           [nil, "String"] # we don't actually stringify nil because format_value special cases nil
         else
-          [value.to_s, "String"] # coerce to string as we don't know how to reconstitue an unknown class
+          [YAML.dump(value), "YAML"]
         end  
       end
       
@@ -145,6 +145,8 @@ module Surus
           true
         when "FalseClass"
           false
+        when "YAML"
+          YAML.load(value)
         else
           raise ArgumentError, "Can't typecast: #{type}"
         end

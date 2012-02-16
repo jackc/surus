@@ -25,11 +25,18 @@ type that can be indexed for fast searching.
     end
     
     User.create :properties => { :favorite_color => "green", :results_per_page => 20 }
+    User.create :properties => { :favorite_colors => ["green", "blue", "red"] }
     
 Even though the underlying hstore can only use strings for keys and values
 (and NULL for values) Surus can successfully maintain type for integers,
-floats, bigdecimals, and dates. It does this by storing an extra key
-value pair (or two) to maintain type information.
+floats, bigdecimals, dates, and any value that YAML can serialize. It does
+this by storing an extra key value pair (or two) to maintain type information.
+
+Because it falls back to YAML serialization for complex types, this means that
+nested data structures can be serialized to an hstore. In other words, any
+hash that can be serialized with the normal Rails YAML serialization can be
+serialized with Surus. But you can get the benefits of PostgreSQL indexing
+on the top level keys and values for free.
 
 Hstores can be searched with helper scopes.
 
