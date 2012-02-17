@@ -3,9 +3,11 @@ Surus
 
 # Description
 
-Surus extends ActiveRecord with PostgreSQL specific functionality. It includes
-hstore and array serializers and helper scopes. It also includes a helper to
-control PostgreSQL synchronous commit behavior.
+Surus accelerates ActiveRecord with PostgreSQL specific types and
+functionality. It enables indexed searching of serialized arrays and hashes.
+It also can control PostgreSQL synchronous commit behavior. By relaxing
+PostgreSQL's durability guarantee, transaction commit rate can be increased by
+50% or more. 
 
 # Installation
 

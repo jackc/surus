@@ -8,8 +8,12 @@ Gem::Specification.new do |s|
   s.authors     = ["Jack Christensen"]
   s.email       = ["jack@jackchristensen.com"]
   s.homepage    = "https://github.com/JackC/surus"
-  s.summary     = %q{PostgreSQL extensions for ActiveRecord}
-  s.description = %q{Includes serializers and search scopes for hstore and array. Also includes control over synchronous_commit to boost insert and update speed.}
+  s.summary     = %q{PostgreSQL Acceleration for ActiveRecord}
+  s.description = %q{Surus accelerates ActiveRecord with PostgreSQL specific types and
+                    functionality. It enables indexed searching of serialized arrays and hashes.
+                    It also can control PostgreSQL synchronous commit behavior. By relaxing
+                    PostgreSQL's durability guarantee, transaction commit rate can be increased by
+                    50% or more. }
 
   s.rubyforge_project = ""
 
