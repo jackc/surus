@@ -47,6 +47,11 @@ Hstores can be searched with helper scopes.
     User.hstore_has_all_keys(:properties, "favorite_color", "gender")
     User.hstore_has_any_keys(:properties, "favorite_color", "favorite_artist")
     
+Hstore is a PostgreSQL extension. You can generate a migration to install it.
+
+    rails g surus:hstore:install
+    rake db:migrate
+    
     
 Read more in the [PostgreSQL hstore documentation](http://www.postgresql.org/docs/9.1/static/hstore.html).
     

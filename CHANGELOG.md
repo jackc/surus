@@ -1,3 +1,7 @@
+# 0.3.1 (March 10, 2012)
+
+* Added generator for hstore migration (Tad Thorley)
+
 # 0.3.0 (February 16, 2012)
 
 * Can now round-trip any value YAML can dump and load as an hstore key or value
