@@ -1,3 +1,7 @@
+# 0.3.2 (March 10, 2012)
+
+* No changes. Had to bump version to get around partially failed upload to RubyGems.org.
+
 # 0.3.1 (March 10, 2012)
 
 * Added generator for hstore migration (Tad Thorley)
