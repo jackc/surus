@@ -36,7 +36,7 @@ CREATE TABLE float_array_records(
 
 
 
-DROP TABLE IF EXISTS float_array_records;
+DROP TABLE IF EXISTS decimal_array_records;
 
 CREATE TABLE decimal_array_records(
   id serial PRIMARY KEY,
