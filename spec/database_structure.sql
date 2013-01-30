@@ -42,3 +42,26 @@ CREATE TABLE decimal_array_records(
   id serial PRIMARY KEY,
   decimals decimal[]
 );
+
+
+
+DROP TABLE IF EXISTS users CASCADE;
+
+CREATE TABLE users(
+  id serial PRIMARY KEY,
+  name varchar NOT NULL,
+  email varchar NOT NULL
+);
+
+
+
+DROP TABLE IF EXISTS posts CASCADE;
+
+CREATE TABLE posts(
+  id serial PRIMARY KEY,
+  author_id integer NOT NULL REFERENCES users,
+  subject varchar NOT NULL,
+  body varchar NOT NULL,
+  posted_at timestamp NOT NULL
+);
+

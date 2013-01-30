@@ -28,7 +28,13 @@ class DecimalArrayRecord < ActiveRecord::Base
   serialize :decimals, Surus::Array::DecimalSerializer.new
 end
 
+class User < ActiveRecord::Base
+  has_many :posts
+end
 
+class Post < ActiveRecord::Base
+  belongs_to :user
+end
 
 RSpec.configure do |config|
   config.around :disable_transactions => nil do |example|
