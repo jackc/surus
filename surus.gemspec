@@ -25,8 +25,9 @@ Gem::Specification.new do |s|
   # specify any dependencies here; for example:
   s.add_dependency 'pg'
   s.add_dependency 'activerecord', ">= 3.1.0"
-  
-  s.add_development_dependency 'rspec', "~> 2.8.0"
+
+  s.add_development_dependency 'rspec', "~> 2.12.0"
   s.add_development_dependency 'guard', ">= 0.10.0"
-  s.add_development_dependency 'guard-rspec', ">= 0.6.0"  
+  s.add_development_dependency 'guard-rspec', ">= 0.6.0"
+  s.add_development_dependency 'rb-fsevent', '~> 0.9.1'
 end
