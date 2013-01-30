@@ -8,7 +8,7 @@ describe Surus::Hstore::Serializer do
     [{"foo" => "bar", "baz" => "quz"}, "multiple key/value pairs"],
     [{"foo" => nil}, "value is nil"],
   ]
-  
+
   [
     ['"', 'double quote (")'],
     ["'", "single quote (')"],
@@ -22,13 +22,13 @@ describe Surus::Hstore::Serializer do
     round_trip_examples << [{"foo#{value}foo" => "bar"}, "key with #{description} in middle"]
     round_trip_examples << [{"foo#{value}" => "bar"}, "key with #{description} at end"]
     round_trip_examples << [{value => "bar"}, "key is #{description}"]
-    
+
     round_trip_examples << [{"foo" => "#{value}bar"}, "value with #{description} at beginning"]
     round_trip_examples << [{"foo" => "bar#{value}bar"}, "value with #{description} in middle"]
     round_trip_examples << [{"foo" => "bar#{value}"}, "value with #{description} at end"]
     round_trip_examples << [{"foo" => value}, "value is #{description}"]
   end
-  
+
   [
     [:foo, "symbol"],
     [0, "integer 0"],
@@ -55,12 +55,12 @@ describe Surus::Hstore::Serializer do
     round_trip_examples << [{value => "bar"}, "key is #{description}"]
     round_trip_examples << [{value => value}, "key and value are each #{description}"]
   end
-  
+
   round_trip_examples.each do |value, description|
     it "round trips when #{description}" do
       r = HstoreRecord.create! :properties => value
       r.reload
-      r.properties.should == value
-    end  
+      expect(r.properties).to eq(value)
+    end
   end
 end

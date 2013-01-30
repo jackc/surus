@@ -11,12 +11,12 @@ describe Surus::Array::IntegerSerializer do
     [[1, nil], "an element is nil"],
     [(1..10_000).to_a, "huge array"]
   ]
-  
+
   round_trip_examples.each do |value, description|
     it "round trips when #{description}" do
       r = IntegerArrayRecord.create! :integers => value
       r.reload
-      r.integers.should == value
-    end    
+      expect(r.integers).to eq(value)
+    end
   end
 end

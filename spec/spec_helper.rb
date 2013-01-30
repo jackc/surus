@@ -37,5 +37,9 @@ RSpec.configure do |config|
       raise ActiveRecord::Rollback
     end
   end
+
+  config.expect_with :rspec do |c|
+    c.syntax = :expect
+  end
 end
 

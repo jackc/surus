@@ -18,12 +18,12 @@ describe Surus::Array::TextSerializer do
     [[%q~foo \\ / " ; ' ( ) {}bar \\'~, "bar"], "an element many special characters"],
     [("aaa".."zzz").to_a, "huge array"]
   ]
-  
+
   round_trip_examples.each do |value, description|
     it "round trips when #{description}" do
       r = TextArrayRecord.create! :texts => value
       r.reload
-      r.texts.should == value
-    end    
+      expect(r.texts).to eq(value)
+    end
   end
 end
