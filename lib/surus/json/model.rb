@@ -1,16 +1,24 @@
 module Surus
   module JSON
-    module Model
-      def find_json(id, options={})
+    class Query
+      attr_reader :original_scope
+      attr_reader :options
+
+      def initialize(original_scope, options={})
+        @original_scope = original_scope
+        @options = options
+      end
+
+      def to_sql
         selected_columns = if options.key? :columns
           options[:columns].clone
         else
-          columns.map(&:name)
+          table_columns.map(&:name)
         end
 
         included_associations = Array(options[:include])
         included_associations.each do |association_name|
-          association = reflect_on_association association_name
+          association = klass.reflect_on_association association_name
           subquery = case association.source_macro
           when :belongs_to
             association
@@ -28,11 +36,27 @@ module Surus
           selected_columns << "(#{subquery}) #{association_name}"
         end
 
-        subquery = select(selected_columns.map(&:to_s).join(', '))
-          .where(id: id)
-          .to_sql
-        wrapped_subquery = "(#{subquery}) t"
-        sql = select("row_to_json(t)").from(wrapped_subquery).to_sql
+        subquery = select(selected_columns.map(&:to_s).join(', ')).to_sql
+        "select row_to_json(t) from (#{subquery}) t"
+      end
+
+      private
+      def klass
+        original_scope.klass
+      end
+
+      def table_columns
+        klass.columns
+      end
+
+      delegate :connection, :quoted_table_name, to: :klass
+      delegate :select, to: :original_scope
+    end
+
+
+    module Model
+      def find_json(id, options={})
+        sql = Query.new(where(id: id), options).to_sql
         connection.select_value sql
       end
     end
