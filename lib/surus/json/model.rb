@@ -16,7 +16,7 @@ module Surus
             .select("row_to_json(#{association.quoted_table_name})")
             .where("#{connection.quote_column_name association.active_record_primary_key}=#{connection.quote_column_name association.foreign_key}")
             .to_sql
-          columns << "(#{subquery}) #{association_name}"
+          selected_columns << "(#{subquery}) #{association_name}"
         end
 
         subquery = select(selected_columns.map(&:to_s).join(', '))

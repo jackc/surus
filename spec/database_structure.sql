@@ -55,10 +55,20 @@ CREATE TABLE users(
 
 
 
+DROP TABLE IF EXISTS forums CASCADE;
+
+CREATE TABLE forums(
+  id serial PRIMARY KEY,
+  name varchar NOT NULL
+);
+
+
+
 DROP TABLE IF EXISTS posts CASCADE;
 
 CREATE TABLE posts(
   id serial PRIMARY KEY,
+  forum_id integer NOT NULL REFERENCES forums,
   author_id integer NOT NULL REFERENCES users,
   subject varchar NOT NULL,
   body varchar NOT NULL

@@ -23,11 +23,20 @@ describe 'json' do
     end
 
     context 'with includes option' do
-      context 'include a single belongs_to association' do
+      context 'a single belongs_to association' do
         it 'includes entire belongs_to object' do
           post = FactoryGirl.create :post
-          expected = Oj.load post.to_json(includes: :author)
+          expected = Oj.load post.to_json(include: :author)
           actual = Oj.load Post.find_json(post.id, includes: :author)
+          expect(expected).to eq(actual)
+        end
+      end
+
+      context 'multiple belongs_to associations' do
+        it 'includes multiple entire belongs_to objects' do
+          post = FactoryGirl.create :post
+          expected = Oj.load post.to_json(include: [:author, :forum])
+          actual = Oj.load Post.find_json(post.id, includes: [:author, :forum])
           expect(expected).to eq(actual)
         end
       end

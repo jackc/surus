@@ -31,7 +31,12 @@ class User < ActiveRecord::Base
   has_many :posts, foreign_key: :author_id
 end
 
+class Forum < ActiveRecord::Base
+  has_many :posts
+end
+
 class Post < ActiveRecord::Base
+  belongs_to :forum
   belongs_to :author, class_name: 'User'
 end
 
