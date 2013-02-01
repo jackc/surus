@@ -7,14 +7,15 @@ Surus accelerates ActiveRecord with PostgreSQL specific types and
 functionality. It enables indexed searching of serialized arrays and hashes.
 It also can control PostgreSQL synchronous commit behavior. By relaxing
 PostgreSQL's durability guarantee, transaction commit rate can be increased by
-50% or more. 
+50% or more. It also directly generate JSON in PostgreSQL which can be
+substantially faster than converting ActiveRecord objects to JSON.
 
 # Installation
 
     gem install surus
-    
+
 Or add to your Gemfile.
-    
+
     gem 'surus'
 
 # Hstore
@@ -25,10 +26,10 @@ type that can be indexed for fast searching.
     class User < ActiveRecord::Base
       serialize :properties, Surus::Hstore::Serializer.new
     end
-    
+
     User.create :properties => { :favorite_color => "green", :results_per_page => 20 }
     User.create :properties => { :favorite_colors => ["green", "blue", "red"] }
-    
+
 Even though the underlying hstore can only use strings for keys and values
 (and NULL for values) Surus can successfully maintain type for integers,
 floats, bigdecimals, dates, and any value that YAML can serialize. It does
@@ -46,32 +47,32 @@ Hstores can be searched with helper scopes.
     User.hstore_has_key(:properties, "favorite_color")
     User.hstore_has_all_keys(:properties, "favorite_color", "gender")
     User.hstore_has_any_keys(:properties, "favorite_color", "favorite_artist")
-    
+
 Hstore is a PostgreSQL extension. You can generate a migration to install it.
 
     rails g surus:hstore:install
     rake db:migrate
-    
-    
+
+
 Read more in the [PostgreSQL hstore documentation](http://www.postgresql.org/docs/9.1/static/hstore.html).
-    
+
 # Array
 
 Ruby arrays can be serialized to PostgreSQL arrays. Surus includes support
 for text, integer, float, and decimal arrays.
 
     class User < ActiveRecord::Base
-      serialize :permissions, Surus::Array::TextSerializer.new
+
       serialize :favorite_integers, Surus::Array::IntegerSerializer.new
       serialize :favorite_floats, Surus::Array::FloatSerializer.new
       serialize :favorite_decimals, Surus::Array::DecimalSerializer.new
     end
-    
+
     User.create :permissions => %w{ read_notes write_notes, manage_topics },
       :favorite_integers => [1, 2, 3],
       :favorite_floats => [1.3, 2.2, 3.1],
       :favorite_decimals => [BigDecimal("3.14"), BigDecimal("4.23"]
-    
+
 Arrays can be searched with helper scopes.
 
     User.array_has(:permissions, "admin")
@@ -92,14 +93,24 @@ entire session or per transaction.
       User.synchronous_commit false
       @user.save
     end # This transaction can return before the data is written to the drive
-    
+
     # synchronous_commit returns to its former value outside of the transaction
     User.synchronous_commit # -> true
-    
+
     # synchronous_commit can be turned off permanently
     User.synchronous_commit false
-    
+
 Read more in the [PostgreSQL asynchronous commit documentation](http://www.postgresql.org/docs/9.1/interactive/wal-async-commit.html).
+
+# JSON
+
+PostgreSQL 9.2 added the `row_to_json` function. This function can be used to
+build JSON very quickly. Unfortunately, it is somewhat cumbersome to use. The
+`find_json` method is an easy to use wrapper around the lower level PostgreSQL
+function.
+
+    User.find_json 1
+    User.find_json 1, columns: [:id, :name, :email]
 
 # Benchmarks
 
@@ -146,12 +157,12 @@ Disabling synchronous commit can improve commit speed by 50% or more.
     disabled per transaction         0.970000   0.850000   1.820000 (  2.478290)
     enabled / single transaction     0.890000   0.500000   1.390000 (  1.693629)
     disabled / single transaction    0.820000   0.450000   1.270000 (  1.554767)
-    
+
 Many more benchmarks are in the bench directory. Most accept parameters to
 adjust the amount of test data.
-    
+
 ## Running the benchmarks
-    
+
 1. Create a database
 2. Configure bench/database.yml to connect to it.
 3. Load bench/database_structure.sql into your bench database.
@@ -159,7 +170,7 @@ adjust the amount of test data.
    the include paths for lib and bench)
 
 
-    
+
 # License
 
 MIT

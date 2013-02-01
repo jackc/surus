@@ -12,5 +12,14 @@ describe 'json' do
         expect(expected).to eq(actual)
       end
     end
+
+    context 'with columns parameter' do
+      it 'is selected row columns as json' do
+        user = User.create! name: 'jack', email: 'jack@example.com'
+        expected = Oj.load user.to_json only: [:id, :name]
+        actual = Oj.load User.find_json(user.id, columns: [:id, :name])
+        expect(expected).to eq(actual)
+      end
+    end
   end
 end
