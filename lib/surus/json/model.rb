@@ -8,7 +8,7 @@ module Surus
           columns.map(&:name)
         end
 
-        included_associations = Array(options[:includes])
+        included_associations = Array(options[:include])
         included_associations.each do |association_name|
           association = reflect_on_association association_name
           subquery = association

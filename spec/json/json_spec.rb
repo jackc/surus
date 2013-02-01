@@ -27,7 +27,7 @@ describe 'json' do
         it 'includes entire belongs_to object' do
           post = FactoryGirl.create :post
           expected = Oj.load post.to_json(include: :author)
-          actual = Oj.load Post.find_json(post.id, includes: :author)
+          actual = Oj.load Post.find_json(post.id, include: :author)
           expect(expected).to eq(actual)
         end
       end
@@ -36,7 +36,7 @@ describe 'json' do
         it 'includes multiple entire belongs_to objects' do
           post = FactoryGirl.create :post
           expected = Oj.load post.to_json(include: [:author, :forum])
-          actual = Oj.load Post.find_json(post.id, includes: [:author, :forum])
+          actual = Oj.load Post.find_json(post.id, include: [:author, :forum])
           expect(expected).to eq(actual)
         end
       end
