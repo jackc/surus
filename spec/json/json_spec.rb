@@ -21,5 +21,17 @@ describe 'json' do
         expect(expected).to eq(actual)
       end
     end
+
+    context 'with includes option' do
+      context 'include a single belongs_to association' do
+        it 'includes entire belongs_to object' do
+          user = User.create! name: 'jack', email: 'jack@example.com'
+          post = user.posts.create! subject: 'test', body: 'test'
+          expected = Oj.load post.to_json(includes: :author)
+          actual = Oj.load Post.find_json(post.id, includes: :author)
+          expect(expected).to eq(actual)
+        end
+      end
+    end
   end
 end

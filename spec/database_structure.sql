@@ -61,7 +61,6 @@ CREATE TABLE posts(
   id serial PRIMARY KEY,
   author_id integer NOT NULL REFERENCES users,
   subject varchar NOT NULL,
-  body varchar NOT NULL,
-  posted_at timestamp NOT NULL
+  body varchar NOT NULL
 );
 

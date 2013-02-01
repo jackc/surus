@@ -111,6 +111,7 @@ function.
 
     User.find_json 1
     User.find_json 1, columns: [:id, :name, :email]
+    Post.find_json 1, includes: :author
 
 # Benchmarks
 
