@@ -11,11 +11,20 @@ module Surus
         included_associations = Array(options[:include])
         included_associations.each do |association_name|
           association = reflect_on_association association_name
-          subquery = association
-            .klass
-            .select("row_to_json(#{association.quoted_table_name})")
-            .where("#{connection.quote_column_name association.active_record_primary_key}=#{connection.quote_column_name association.foreign_key}")
-            .to_sql
+          subquery = case association.source_macro
+          when :belongs_to
+            association
+              .klass
+              .select("row_to_json(#{association.quoted_table_name})")
+              .where("#{connection.quote_column_name association.active_record_primary_key}=#{connection.quote_column_name association.foreign_key}")
+              .to_sql
+          when :has_many
+            association
+              .klass
+              .select("array_to_json(array_agg(row_to_json(#{association.quoted_table_name})))")
+              .where("#{quoted_table_name}.#{connection.quote_column_name association.active_record_primary_key}=#{connection.quote_column_name association.foreign_key}")
+              .to_sql
+          end
           selected_columns << "(#{subquery}) #{association_name}"
         end
 

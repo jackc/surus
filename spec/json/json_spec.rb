@@ -40,6 +40,17 @@ describe 'json' do
           expect(find_json).to eq(to_json)
         end
       end
+
+      context 'a single has_many association' do
+        it 'includes entire has_many association' do
+          user = FactoryGirl.create :user
+          posts = FactoryGirl.create_list :post, 2, author: user
+          user.reload
+          to_json = Oj.load user.to_json(include: :posts)
+          find_json = Oj.load User.find_json(user.id, include: :posts)
+          expect(find_json).to eq(to_json)
+        end
+      end
     end
   end
 end
