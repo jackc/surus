@@ -43,10 +43,17 @@ end
 FactoryGirl.find_definitions
 
 RSpec.configure do |config|
-  config.around :disable_transactions => nil do |example|
-    ActiveRecord::Base.transaction do
+  config.around do |example|
+    if example.metadata[:disable_transactions]
       example.call
-      raise ActiveRecord::Rollback
+    else
+      ActiveRecord::Base.transaction do
+        begin
+          example.call
+        ensure
+          raise ActiveRecord::Rollback
+        end
+      end
     end
   end
 
