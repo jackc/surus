@@ -9,10 +9,6 @@ module Surus
         @options = options
       end
 
-      def to_sql
-        "select row_to_json(t) from (#{subquery_sql}) t"
-      end
-
       private
       def klass
         original_scope.klass
@@ -46,13 +42,12 @@ module Surus
             association_scope = association
               .klass
               .where("#{connection.quote_column_name association.active_record_primary_key}=#{connection.quote_column_name association.foreign_key}")
-            Query.new(association_scope, association_options).to_sql
+            RowQuery.new(association_scope, association_options).to_sql
           when :has_many
-            association
+            association_scope = association
               .klass
-              .select("array_to_json(array_agg(row_to_json(#{association.quoted_table_name})))")
               .where("#{quoted_table_name}.#{connection.quote_column_name association.active_record_primary_key}=#{connection.quote_column_name association.foreign_key}")
-              .to_sql
+            ArrayAggQuery.new(association_scope, association_options).to_sql
           end
           "(#{subquery}) #{association_name}"
         end
@@ -81,10 +76,22 @@ module Surus
       delegate :select, to: :original_scope
     end
 
+    class RowQuery < Query
+      def to_sql
+        "select row_to_json(t) from (#{subquery_sql}) t"
+      end
+    end
+
+    class ArrayAggQuery < Query
+      def to_sql
+        "select array_to_json(array_agg(row_to_json(t))) from (#{subquery_sql}) t"
+      end
+    end
+
 
     module Model
       def find_json(id, options={})
-        sql = Query.new(where(id: id), options).to_sql
+        sql = RowQuery.new(where(id: id), options).to_sql
         connection.select_value sql
       end
     end
