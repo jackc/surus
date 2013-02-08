@@ -10,14 +10,20 @@ module Surus
       end
 
       def to_sql
-        columns = selected_columns + association_columns
-        subquery = select(columns.map(&:to_s).join(', ')).to_sql
-        "select row_to_json(t) from (#{subquery}) t"
+        "select row_to_json(t) from (#{subquery_sql}) t"
       end
 
       private
       def klass
         original_scope.klass
+      end
+
+      def subquery_sql
+        select(columns.map(&:to_s).join(', ')).to_sql
+      end
+
+      def columns
+        selected_columns + association_columns
       end
 
       def table_columns
