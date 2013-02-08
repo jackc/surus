@@ -10,13 +10,30 @@ module Surus
       end
 
       def to_sql
-        selected_columns = if options.key? :columns
-          options[:columns].clone
+        columns = selected_columns + association_columns
+        subquery = select(columns.map(&:to_s).join(', ')).to_sql
+        "select row_to_json(t) from (#{subquery}) t"
+      end
+
+      private
+      def klass
+        original_scope.klass
+      end
+
+      def table_columns
+        klass.columns
+      end
+
+      def selected_columns
+        if options.key? :columns
+          options[:columns]
         else
           table_columns.map(&:name)
         end
+      end
 
-        included_associations_name_and_options.each do |association_name, association_options|
+      def association_columns
+        included_associations_name_and_options.map do |association_name, association_options|
           association = klass.reflect_on_association association_name
           subquery = case association.source_macro
           when :belongs_to
@@ -31,20 +48,8 @@ module Surus
               .where("#{quoted_table_name}.#{connection.quote_column_name association.active_record_primary_key}=#{connection.quote_column_name association.foreign_key}")
               .to_sql
           end
-          selected_columns << "(#{subquery}) #{association_name}"
+          "(#{subquery}) #{association_name}"
         end
-
-        subquery = select(selected_columns.map(&:to_s).join(', ')).to_sql
-        "select row_to_json(t) from (#{subquery}) t"
-      end
-
-      private
-      def klass
-        original_scope.klass
-      end
-
-      def table_columns
-        klass.columns
       end
 
       def included_associations_name_and_options
