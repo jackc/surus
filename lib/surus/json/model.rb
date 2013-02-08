@@ -16,16 +16,14 @@ module Surus
           table_columns.map(&:name)
         end
 
-        included_associations = Array(options[:include])
-        included_associations.each do |association_name|
+        included_associations_name_and_options.each do |association_name, association_options|
           association = klass.reflect_on_association association_name
           subquery = case association.source_macro
           when :belongs_to
-            association
+            association_scope = association
               .klass
-              .select("row_to_json(#{association.quoted_table_name})")
               .where("#{connection.quote_column_name association.active_record_primary_key}=#{connection.quote_column_name association.foreign_key}")
-              .to_sql
+            Query.new(association_scope, association_options).to_sql
           when :has_many
             association
               .klass
@@ -47,6 +45,25 @@ module Surus
 
       def table_columns
         klass.columns
+      end
+
+      def included_associations_name_and_options
+        _include = options[:include]
+        if _include.nil?
+          {}
+        elsif _include.kind_of?(::Hash)
+          _include
+        elsif _include.kind_of?(::Array)
+          _include.each_with_object({}) do |e, hash|
+            if e.kind_of?(Hash)
+              hash.merge!(e)
+            else
+              hash[e] = {}
+            end
+          end
+        else
+          {_include => {}}
+        end
       end
 
       delegate :connection, :quoted_table_name, to: :klass

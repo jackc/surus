@@ -41,6 +41,24 @@ describe 'json' do
         end
       end
 
+      context 'belongs_to with columns option' do
+        it 'includes only selected columns of belongs_to object' do
+          post = FactoryGirl.create :post
+          to_json = Oj.load post.to_json(include: {author: {only: [:id, :name]}})
+          find_json = Oj.load Post.find_json(post.id, include: {author: {columns: [:id, :name]}})
+          expect(find_json).to eq(to_json)
+        end
+      end
+
+      context 'belongs_to with columns' do
+        it 'only includes selected columns' do
+          post = FactoryGirl.create :post
+          to_json = Oj.load post.to_json(include: { author: { only: [:id, :name] }})
+          find_json = Oj.load Post.find_json(post.id, include: { author: { columns: [:id, :name] }})
+          expect(find_json).to eq(to_json)
+        end
+      end
+
       context 'a single has_many association' do
         it 'includes entire has_many association' do
           user = FactoryGirl.create :user
