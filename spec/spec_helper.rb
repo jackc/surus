@@ -29,6 +29,14 @@ end
 
 class User < ActiveRecord::Base
   has_many :posts, foreign_key: :author_id
+  has_many :posts_with_order,
+    foreign_key: :author_id,
+    class_name: 'Post',
+    order: 'posts.id desc'
+  has_many :posts_with_conditions,
+    foreign_key: :author_id,
+    class_name: 'Post',
+    conditions: {subject: 'foo'}
 end
 
 class Forum < ActiveRecord::Base

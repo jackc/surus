@@ -53,6 +53,25 @@ describe 'json' do
         expect(find_json).to eq(to_json)
       end
 
+      it 'preserves has_many order' do
+        user = FactoryGirl.create :user
+        posts = FactoryGirl.create_list :post, 2, author: user
+        user.reload
+        to_json = Oj.load user.to_json(include: :posts_with_order)
+        find_json = Oj.load User.find_json(user.id, include: :posts_with_order)
+        expect(find_json).to eq(to_json)
+      end
+
+      it 'filters by has_many conditions' do
+        user = FactoryGirl.create :user
+        FactoryGirl.create :post, author: user, subject: 'foo'
+        FactoryGirl.create :post, author: user
+        user.reload
+        to_json = Oj.load user.to_json(include: :posts_with_conditions)
+        find_json = Oj.load User.find_json(user.id, include: :posts_with_conditions)
+        expect(find_json).to eq(to_json)
+      end
+
       it 'includes only select columns of has_many association' do
         user = FactoryGirl.create :user
         posts = FactoryGirl.create_list :post, 2, author: user
