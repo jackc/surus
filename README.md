@@ -104,14 +104,16 @@ Read more in the [PostgreSQL asynchronous commit documentation](http://www.postg
 
 # JSON
 
-PostgreSQL 9.2 added the `row_to_json` function. This function can be used to
-build JSON very quickly. Unfortunately, it is somewhat cumbersome to use. The
-`find_json` method is an easy to use wrapper around the lower level PostgreSQL
-function.
+PostgreSQL 9.2 added `row_to_json` and `array_to_json` functions. These
+functions can be used to build JSON very quickly. Unfortunately, they are
+somewhat cumbersome to use. The `find_json` and `all_json` methods are easy to
+use wrappers around the lower level PostgreSQL functions that closely mimic
+the Rails `to_json` interface.
 
     User.find_json 1
     User.find_json 1, columns: [:id, :name, :email]
     Post.find_json 1, include: :author
+    User.admin.all_json
 
 # Benchmarks
 

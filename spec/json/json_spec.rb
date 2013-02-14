@@ -81,4 +81,13 @@ describe 'json' do
       end
     end
   end
+
+  describe 'all_json' do
+    it 'is all rows as array' do
+      users = FactoryGirl.create_list :user, 3
+      to_json = Oj.load users.to_json
+      all_json = Oj.load User.all_json
+      expect(all_json).to eq(to_json)
+    end
+  end
 end
