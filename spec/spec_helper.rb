@@ -46,6 +46,11 @@ end
 class Post < ActiveRecord::Base
   belongs_to :forum
   belongs_to :author, class_name: 'User'
+  has_and_belongs_to_many :tags
+end
+
+class Tag < ActiveRecord::Base
+  has_and_belongs_to_many :posts
 end
 
 FactoryGirl.find_definitions

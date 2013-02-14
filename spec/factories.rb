@@ -10,6 +10,10 @@ FactoryGirl.define do
     body { Faker::Lorem.paragraph }
   end
 
+  factory :tag do
+    name { Faker::Lorem.word }
+  end
+
   factory :user, aliases: [:author] do
     name { Faker::Internet.user_name }
     email { Faker::Internet.email }

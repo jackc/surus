@@ -74,3 +74,21 @@ CREATE TABLE posts(
   body varchar NOT NULL
 );
 
+
+
+DROP TABLE IF EXISTS tags CASCADE;
+
+CREATE TABLE tags(
+  id serial PRIMARY KEY,
+  name varchar NOT NULL UNIQUE
+);
+
+
+
+DROP TABLE IF EXISTS posts_tags CASCADE;
+
+CREATE TABLE posts_tags(
+  post_id integer NOT NULL REFERENCES posts,
+  tag_id integer NOT NULL REFERENCES tags,
+  PRIMARY KEY (post_id, tag_id)
+);

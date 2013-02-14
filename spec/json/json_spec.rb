@@ -81,6 +81,27 @@ describe 'json' do
         expect(find_json).to eq(to_json)
       end
 
+      it 'includes entire has_and_belongs_to_many association' do
+        post = FactoryGirl.create :post
+        tag = FactoryGirl.create :tag
+        post.tags << tag
+        to_json = Oj.load post.to_json(include: :tags)
+        find_json = Oj.load Post.find_json(post.id, include: :tags)
+        expect(find_json).to eq(to_json)
+      end
+
+      it 'excludes other has_and_belongs_to_many association records' do
+        post = FactoryGirl.create :post
+        tag = FactoryGirl.create :tag
+        post.tags << tag
+        other_post = FactoryGirl.create :post
+        other_tag = FactoryGirl.create :tag
+        other_post.tags << other_tag
+        to_json = Oj.load post.to_json(include: :tags)
+        find_json = Oj.load Post.find_json(post.id, include: :tags)
+        expect(find_json).to eq(to_json)
+      end
+
       it 'includes nested associations' do
         user = FactoryGirl.create :user
         post = FactoryGirl.create :post, author: user
