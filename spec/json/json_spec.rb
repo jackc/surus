@@ -81,6 +81,13 @@ describe 'json' do
         expect(find_json).to eq(to_json)
       end
 
+      it 'includes empty array for empty has_many association' do
+        user = FactoryGirl.create :user
+        to_json = Oj.load user.to_json(include: :posts)
+        find_json = Oj.load User.find_json(user.id, include: :posts)
+        expect(find_json).to eq(to_json)
+      end
+
       it 'includes entire has_and_belongs_to_many association' do
         post = FactoryGirl.create :post
         tag = FactoryGirl.create :tag
@@ -97,6 +104,13 @@ describe 'json' do
         other_post = FactoryGirl.create :post
         other_tag = FactoryGirl.create :tag
         other_post.tags << other_tag
+        to_json = Oj.load post.to_json(include: :tags)
+        find_json = Oj.load Post.find_json(post.id, include: :tags)
+        expect(find_json).to eq(to_json)
+      end
+
+      it 'includes empty array for empty has_and_belongs_to_many' do
+        post = FactoryGirl.create :post
         to_json = Oj.load post.to_json(include: :tags)
         find_json = Oj.load Post.find_json(post.id, include: :tags)
         expect(find_json).to eq(to_json)
