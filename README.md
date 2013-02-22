@@ -113,7 +113,11 @@ the Rails `to_json` interface.
     User.find_json 1
     User.find_json 1, columns: [:id, :name, :email]
     Post.find_json 1, include: :author
-    User.admin.all_json
+    User.find_json(user.id, include: {posts: {columns: [:id, :subject]}})
+    User.all_json
+    User.where(admin: true).all_json
+    User.all_json(columns: [:id, :name, :email], include: {posts: {columns: [:id, :subject]}})
+    Post.all_json(include: [:forum, :post])
 
 # Benchmarks
 
@@ -139,6 +143,18 @@ Arrays are also searchable.
     Finding all where array includes value 200 times
                    user     system      total        real
     Surus      0.120000   0.040000   0.160000 (  0.531735)
+
+JSON generation is with all_json and find_json is substantially faster than to_json.
+
+    jack@hk-47~/dev/surus$ ruby -I lib -I bench bench/json_generation.rb
+    Generating test data... Done.
+                                                                  user     system      total        real
+    find_json: 1 record 500 times                             0.140000   0.010000   0.150000 (  0.205195)
+    to_json:   1 record 500 times                             0.240000   0.010000   0.250000 (  0.287435)
+    find_json: 1 record with 3 associations 500 times         0.480000   0.010000   0.490000 (  0.796025)
+    to_json:   1 record with 3 associations 500 times         1.130000   0.050000   1.180000 (  1.500837)
+    all_json:  50 records with 3 associations 20 times        0.030000   0.000000   0.030000 (  0.090454)
+    to_json:   50 records with 3 associations 20 times        1.350000   0.020000   1.370000 (  1.710151)
 
 Disabling synchronous commit can improve commit speed by 50% or more.
 

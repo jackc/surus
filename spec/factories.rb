@@ -11,7 +11,7 @@ FactoryGirl.define do
   end
 
   factory :tag do
-    name { Faker::Lorem.word }
+    sequence(:name) { |n| "#{Faker::Lorem.word} - #{n}" }
   end
 
   factory :user, aliases: [:author] do

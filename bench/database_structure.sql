@@ -90,3 +90,58 @@ CREATE TABLE narrow_records(
 );
 
 CREATE INDEX ON narrow_records (a);
+
+
+
+DROP TABLE IF EXISTS users CASCADE;
+
+CREATE TABLE users(
+  id serial PRIMARY KEY,
+  name varchar NOT NULL,
+  email varchar NOT NULL
+);
+
+
+
+DROP TABLE IF EXISTS forums CASCADE;
+
+CREATE TABLE forums(
+  id serial PRIMARY KEY,
+  name varchar NOT NULL
+);
+
+
+
+DROP TABLE IF EXISTS posts CASCADE;
+
+CREATE TABLE posts(
+  id serial PRIMARY KEY,
+  forum_id integer NOT NULL REFERENCES forums,
+  author_id integer NOT NULL REFERENCES users,
+  subject varchar NOT NULL,
+  body varchar NOT NULL
+);
+
+CREATE INDEX ON posts(forum_id);
+CREATE INDEX ON posts(author_id);
+
+
+
+DROP TABLE IF EXISTS tags CASCADE;
+
+CREATE TABLE tags(
+  id serial PRIMARY KEY,
+  name varchar NOT NULL UNIQUE
+);
+
+
+
+DROP TABLE IF EXISTS posts_tags CASCADE;
+
+CREATE TABLE posts_tags(
+  post_id integer NOT NULL REFERENCES posts,
+  tag_id integer NOT NULL REFERENCES tags,
+  PRIMARY KEY (post_id, tag_id)
+);
+
+CREATE INDEX ON posts_tags(tag_id);
