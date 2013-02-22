@@ -30,6 +30,12 @@ describe 'json' do
         expect(find_json).to eq(to_json)
       end
 
+      it 'filters by belongs_to conditions' do
+        post = FactoryGirl.create :post
+        find_json = Oj.load Post.find_json(post.id, include: :forum_with_impossible_conditions)
+        expect(find_json.fetch('forum_with_impossible_conditions')).to be_nil
+      end
+
       it 'includes multiple entire belongs_to objects' do
         post = FactoryGirl.create :post
         to_json = Oj.load post.to_json(include: [:author, :forum])

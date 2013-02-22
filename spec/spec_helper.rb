@@ -46,6 +46,10 @@ end
 class Post < ActiveRecord::Base
   belongs_to :forum
   belongs_to :author, class_name: 'User'
+  belongs_to :forum_with_impossible_conditions,
+    foreign_key: :forum_id,
+    class_name: 'Forum',
+    conditions: '1=2'
   has_and_belongs_to_many :tags
 end
 
