@@ -1,3 +1,11 @@
+# 0.4.1 (February 27, 2013)
+
+* Fix array_has and array_has_any with varchar[]
+
+# 0.4.0 (February 22, 2013)
+
+* Added JSON generation with find_json and all_json
+
 # 0.3.2 (March 10, 2012)
 
 * No changes. Had to bump version to get around partially failed upload to RubyGems.org.
