@@ -15,6 +15,10 @@ class TextArrayRecord < ActiveRecord::Base
   serialize :texts, Surus::Array::TextSerializer.new
 end
 
+class VarcharArrayRecord < ActiveRecord::Base
+  serialize :varchars, Surus::Array::TextSerializer.new
+end
+
 class IntegerArrayRecord < ActiveRecord::Base
   serialize :integers, Surus::Array::IntegerSerializer.new
 end
