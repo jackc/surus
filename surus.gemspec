@@ -23,7 +23,6 @@ Gem::Specification.new do |s|
   s.require_paths = ["lib"]
 
   # specify any dependencies here; for example:
-  s.add_dependency 'pg'
   s.add_dependency 'activerecord', ">= 3.1.0"
 
   s.add_development_dependency 'rspec', "~> 2.12.0"
@@ -31,6 +30,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'guard-rspec', ">= 0.6.0"
   s.add_development_dependency 'rb-fsevent', '~> 0.9.1'
   s.add_development_dependency 'oj', '~> 2.0.2'
+  s.add_development_dependency 'pg'
   s.add_development_dependency 'pry', '~> 0.9.11'
   s.add_development_dependency 'factory_girl', '~> 4.2.0'
   s.add_development_dependency 'faker', '~> 1.1.2'
