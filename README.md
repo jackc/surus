@@ -53,6 +53,13 @@ Hstore is a PostgreSQL extension. You can generate a migration to install it.
     rails g surus:hstore:install
     rake db:migrate
 
+You can then use the hstore type in migrations.
+
+    class AddPropertiesToUsers < ActiveRecord::Migration
+      def change
+        add_column :users, :properties, :hstore
+      end
+    end
 
 Read more in the [PostgreSQL hstore documentation](http://www.postgresql.org/docs/9.1/static/hstore.html).
 
