@@ -126,6 +126,15 @@ the Rails `to_json` interface.
     User.all_json(columns: [:id, :name, :email], include: {posts: {columns: [:id, :subject]}})
     Post.all_json(include: [:forum, :post])
 
+You can use the json type in migrations.
+
+    class AddPropertiesToUsers < ActiveRecord::Migration
+      def change
+        add_column :users, :properties, :json
+      end
+    end
+
+
 # Benchmarks
 
 Using PostgreSQL's hstore enables searches to be done quickly in the database.
