@@ -12,23 +12,9 @@ class HstoreRecord < ActiveRecord::Base
 end
 
 class TextArrayRecord < ActiveRecord::Base
-  serialize :texts, Surus::Array::TextSerializer.new
 end
 
 class VarcharArrayRecord < ActiveRecord::Base
-  serialize :varchars, Surus::Array::TextSerializer.new
-end
-
-class IntegerArrayRecord < ActiveRecord::Base
-  serialize :integers, Surus::Array::IntegerSerializer.new
-end
-
-class FloatArrayRecord < ActiveRecord::Base
-  serialize :floats, Surus::Array::FloatSerializer.new
-end
-
-class DecimalArrayRecord < ActiveRecord::Base
-  serialize :decimals, Surus::Array::DecimalSerializer.new
 end
 
 class User < ActiveRecord::Base
