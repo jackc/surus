@@ -1,3 +1,11 @@
+# 0.4.2 (June 21, 2013)
+
+* Make pg a development dependency to allow usage with JRuby
+* Added migration support for hstore (Justin Talbott)
+* Added migration support for json
+* Make activerecord dependency ~> 3.1 to keep incompatible version of Surus from being used with Rails 4
+* Updated docs to mention Rails 4 branch
+
 # 0.4.1 (February 27, 2013)
 
 * Fix array_has and array_has_any with varchar[]

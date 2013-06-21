@@ -18,6 +18,11 @@ Or add to your Gemfile.
 
     gem 'surus'
 
+# Rails 4 Support
+
+This version of Surus is compatible with Rails 3.1.x and Rails 3.2.x. It is not
+compatible with Rails 4. Checkout the rails4 branch if you are using Rails 4.
+
 # Hstore
 
 Hashes can be serialized to an hstore column. hstore is a PostgreSQL key/value
