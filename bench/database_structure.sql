@@ -38,24 +38,6 @@ CREATE UNIQUE INDEX ON eav_detail_records(eav_master_record_id, "key");
 CREATE INDEX ON eav_detail_records ("value");
 
 
-DROP TABLE IF EXISTS yaml_array_records;
-
-CREATE TABLE yaml_array_records(
-  id serial PRIMARY KEY,
-  names text
-);
-
-
-DROP TABLE IF EXISTS surus_text_array_records;
-
-CREATE TABLE surus_text_array_records(
-  id serial PRIMARY KEY,
-  names text[]
-);
-
-CREATE INDEX ON surus_text_array_records USING GIN (names);
-
-
 
 DROP TABLE IF EXISTS wide_records;
 

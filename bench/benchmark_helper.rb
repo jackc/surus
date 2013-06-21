@@ -40,14 +40,6 @@ class EavDetailRecord < ActiveRecord::Base
   belongs_to :eav_master_record
 end
 
-class YamlArrayRecord < ActiveRecord::Base
-  serialize :names
-end
-
-class SurusTextArrayRecord < ActiveRecord::Base
-  serialize :names, Surus::Array::TextSerializer.new
-end
-
 class WideRecord < ActiveRecord::Base
 end
 
@@ -77,7 +69,6 @@ def clean_database
   SurusKeyValueRecord.delete_all
   EavDetailRecord.delete_all
   EavMasterRecord.delete_all
-  YamlArrayRecord.delete_all
   WideRecord.delete_all
   NarrowRecord.delete_all
   Post.destroy_all # destroy instead of delete so it removes join records in posts_tags
