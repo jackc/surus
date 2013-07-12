@@ -7,7 +7,7 @@ Surus adds PostgreSQL specific functionality to ActiveRecord. It adds
 helper methods for searching PostgreSQL arrays and hstores.
 It also can control PostgreSQL synchronous commit behavior. By relaxing
 PostgreSQL's durability guarantee, transaction commit rate can be increased by
-50% or more. It also directly generate JSON in PostgreSQL which can be
+50% or more. It can also directly generate JSON in PostgreSQL which can be
 substantially faster than converting ActiveRecord objects to JSON.
 
 # Installation
