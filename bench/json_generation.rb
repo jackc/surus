@@ -55,7 +55,7 @@ Benchmark.bm(55) do |x|
 
   x.report("to_json:   50 records with 3 associations #{num_long_iterations} times") do
     num_long_iterations.times do
-      Post.includes(:author, :forum).all.to_json include: [:author, :forum, :tags]
+      Post.includes(:author, :forum).to_a.to_json include: [:author, :forum, :tags]
     end
   end
 end

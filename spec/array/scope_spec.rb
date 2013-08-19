@@ -14,17 +14,17 @@ describe Surus::Array::Scope do
     end
 
     context "with one element" do
-      subject { TextArrayRecord.array_has(:texts, "b").all }
+      subject { TextArrayRecord.array_has(:texts, "b") }
       shared_examples
     end
 
     context "with array of elements" do
-      subject { TextArrayRecord.array_has(:texts, ["a", "b"]).all }
+      subject { TextArrayRecord.array_has(:texts, ["a", "b"]) }
       shared_examples
     end
 
     context "with multiple elements" do
-      subject { TextArrayRecord.array_has(:texts, "a", "b").all }
+      subject { TextArrayRecord.array_has(:texts, "a", "b") }
       shared_examples
     end
   end
@@ -40,17 +40,17 @@ describe Surus::Array::Scope do
     end
 
     context "with one element" do
-      subject { TextArrayRecord.array_has_any(:texts, "b").all }
+      subject { TextArrayRecord.array_has_any(:texts, "b") }
       shared_examples
     end
 
     context "with array of elements" do
-      subject { TextArrayRecord.array_has_any(:texts, ["b", "c"]).all }
+      subject { TextArrayRecord.array_has_any(:texts, ["b", "c"]) }
       shared_examples
     end
 
     context "with multiple elements" do
-      subject { TextArrayRecord.array_has_any(:texts, "b", "c").all }
+      subject { TextArrayRecord.array_has_any(:texts, "b", "c") }
       shared_examples
     end
   end

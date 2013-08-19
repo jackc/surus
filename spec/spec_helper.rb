@@ -12,35 +12,21 @@ class HstoreRecord < ActiveRecord::Base
 end
 
 class TextArrayRecord < ActiveRecord::Base
-  serialize :texts, Surus::Array::TextSerializer.new
 end
 
 class VarcharArrayRecord < ActiveRecord::Base
-  serialize :varchars, Surus::Array::TextSerializer.new
-end
-
-class IntegerArrayRecord < ActiveRecord::Base
-  serialize :integers, Surus::Array::IntegerSerializer.new
-end
-
-class FloatArrayRecord < ActiveRecord::Base
-  serialize :floats, Surus::Array::FloatSerializer.new
-end
-
-class DecimalArrayRecord < ActiveRecord::Base
-  serialize :decimals, Surus::Array::DecimalSerializer.new
 end
 
 class User < ActiveRecord::Base
   has_many :posts, foreign_key: :author_id
   has_many :posts_with_order,
+    -> { order 'posts.id desc' },
     foreign_key: :author_id,
-    class_name: 'Post',
-    order: 'posts.id desc'
+    class_name: 'Post'
   has_many :posts_with_conditions,
+    -> { where subject: 'foo' },
     foreign_key: :author_id,
-    class_name: 'Post',
-    conditions: {subject: 'foo'}
+    class_name: 'Post'
 end
 
 class Forum < ActiveRecord::Base
@@ -51,9 +37,9 @@ class Post < ActiveRecord::Base
   belongs_to :forum
   belongs_to :author, class_name: 'User'
   belongs_to :forum_with_impossible_conditions,
+    -> { where '1=2' },
     foreign_key: :forum_id,
-    class_name: 'Forum',
-    conditions: '1=2'
+    class_name: 'Forum'
   has_and_belongs_to_many :tags
 end
 

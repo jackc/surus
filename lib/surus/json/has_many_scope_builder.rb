@@ -2,12 +2,11 @@ module Surus
   module JSON
     class HasManyScopeBuilder < AssociationScopeBuilder
       def scope
-        association_scope = association
+        s = association
           .klass
           .where("#{outside_primary_key}=#{association_foreign_key}")
-        association_scope = association_scope.where(conditions) if conditions
-        association_scope = association_scope.order(order) if order
-        association_scope
+        s = s.instance_eval(&association.scope) if association.scope
+        s
       end
 
       def outside_primary_key

@@ -6,7 +6,7 @@ optparse = OptionParser.new do |opts|
   opts.on '-r NUM', '--records NUM', Integer, 'Number of records to create' do |n|
     options[:records] = n
   end
-  
+
   options[:pairs] = 5
   opts.on '-p NUM', '--pairs NUM', Integer, 'Number of key/value pairs' do |n|
     options[:pairs] = n
@@ -16,7 +16,7 @@ optparse = OptionParser.new do |opts|
   opts.on '-e', '--eav', 'Include EAV in benchmark (VERY SLOW!)' do
     options[:eav] = true
   end
-  
+
   options[:yaml] = false
   opts.on '-y', '--yaml', 'Include YAML in benchmark (VERY SLOW!)' do
     options[:yaml] = true
@@ -84,22 +84,22 @@ Benchmark.bm(8) do |x|
         EavMasterRecord
           .includes(:eav_detail_records)
           .where("EXISTS(SELECT 1 FROM eav_detail_records WHERE eav_master_records.id=eav_detail_records.eav_master_record_id AND key=?)", key_to_find)
-          .all
+          .to_a
       end
-    end  
+    end
   end
 
   x.report("Surus") do
     keys_to_find.each do |key_to_find|
-      SurusKeyValueRecord.hstore_has_key(:properties, key_to_find).all
+      SurusKeyValueRecord.hstore_has_key(:properties, key_to_find).to_a
     end
   end
 
   if yaml
     x.report("YAML") do
       keys_to_find.each do |key_to_find|
-        YamlKeyValueRecord.all.select { |r| r.properties.key?(key_to_find) }
+        YamlKeyValueRecord.to_a.select { |r| r.properties.key?(key_to_find) }
       end
-    end    
+    end
   end
 end

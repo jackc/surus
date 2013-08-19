@@ -1,71 +1,47 @@
 module Surus
   module Hstore
     class Serializer
-      KEY_VALUE_REGEX = %r{
-        "
-        ((?:[^"\\]|\\.)*)
-        "
-        =>
-        (
-          "
-          (?:[^"\\]|\\.)*
-          "
-          |(NULL)
-        )
-      }x
-
-      def load(string)
-        return unless string
-        stringified_hash = string.scan(KEY_VALUE_REGEX).each_with_object({}) do |key_value, hash|
-          key, value = key_value
-          key = unescape(key)
-          value = if value == "NULL"
-            nil
-          else
-            unescape(value[1..-2])
-          end
-          
-          hash[key] = value
-        end
+      def load(stringified_hash)
+        return unless stringified_hash
 
         key_types = stringified_hash.delete "__key_types"
         key_types = YAML.load key_types if key_types
         value_types = stringified_hash.delete "__value_types"
         value_types = YAML.load value_types if value_types
-        
+
         return stringified_hash unless key_types || value_types
-        
+
         stringified_hash.each_with_object({}) do |key_value, hash|
           string_key, string_value = key_value
-          
-          key = if key_types && key_types.key?(string_key) 
+
+          key = if key_types && key_types.key?(string_key)
             typecast(string_key, key_types[string_key])
           else
             string_key
           end
-          
+
           value = if value_types && value_types.key?(string_key)
             typecast(string_value, value_types[string_key])
           else
             string_value
           end
-          
+
           hash[key] = value
-        end    
+        end
       end
-      
+
       def dump(hash)
         return unless hash
-        
+
         key_types = {}
         value_types = {}
-        
+
         stringified_hash = hash.each_with_object({}) do |key_value, stringified_hash|
           key_string, key_type = stringify(key_value[0])
           value_string, value_type = stringify(key_value[1])
-          
+
           stringified_hash[key_string] = value_string
-          
+
           key_types[key_string] = key_type unless key_type == "String"
           value_types[key_string] = value_type unless value_type == "String"
         end
@@ -76,34 +52,34 @@ module Surus
         # the mess for us.
         stringified_hash["__key_types"] = YAML.dump(key_types) if key_types.present?
         stringified_hash["__value_types"] = YAML.dump(value_types) if value_types.present?
-        
+
         stringified_hash.map do |key, value|
           "#{format_key(key)}=>#{format_value(value)}"
         end.join(", ")
       end
-      
+
       def format_key(key)
         %Q("#{escape(key)}")
       end
-      
+
       def format_value(value)
         value ? %Q("#{escape(value)}") : "NULL"
       end
-      
+
       # Escape a value for use as a key or value in an hstore
       def escape(value)
         value
           .gsub('\\', '\\\\\\')
           .gsub('"', '\\"')
       end
-      
+
       # Unescape a value from a key or value in an hstore
       def unescape(value)
         value
           .gsub('\\\\', '\\')
           .gsub('\\"', '"')
       end
-      
+
       # Returns an array of value as a string and value type
       def stringify(value)
         if value.kind_of?(String)
@@ -126,9 +102,9 @@ module Surus
           [nil, "String"] # we don't actually stringify nil because format_value special cases nil
         else
           [YAML.dump(value), "YAML"]
-        end  
+        end
       end
-      
+
       def typecast(value, type)
         case type
         when "Symbol"
@@ -152,5 +128,5 @@ module Surus
         end
       end
     end
-  end  
+  end
 end

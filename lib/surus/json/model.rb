@@ -7,7 +7,7 @@ module Surus
       end
 
       def all_json(options={})
-        sql = ArrayAggQuery.new(scoped, options).to_sql
+        sql = ArrayAggQuery.new(all, options).to_sql
         connection.select_value sql
       end
     end

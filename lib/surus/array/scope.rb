@@ -24,7 +24,7 @@ module Surus
       private
       def array_cast(column_name)
         column = columns_hash[column_name.to_s]
-        "::#{column.sql_type}"
+        "::#{column.sql_type}[]"
       end
     end
   end
