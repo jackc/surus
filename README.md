@@ -18,6 +18,12 @@ Or add to your Gemfile.
 
     gem 'surus'
 
+## Rails 3
+
+This version of Surus only works on Rails 4. Use the 0.4 line for Rails 3
+
+    gem 'surus', '~> 0.4.2'
+
 # Hstore
 
 Hstores can be searched with helper scopes.
