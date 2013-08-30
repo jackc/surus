@@ -22,6 +22,16 @@ describe 'json' do
       end
     end
 
+    context 'when scope chain has a joins with ambiguous column names' do
+      it 'works' do
+        user = FactoryGirl.create :user
+        FactoryGirl.create :post, author: user
+        to_json = Oj.load user.to_json
+        find_json = Oj.load User.joins(:posts).find_json(user.id)
+        expect(find_json).to eq(to_json)
+      end
+    end
+
     context 'with includes option' do
       it 'includes entire belongs_to object' do
         post = FactoryGirl.create :post
