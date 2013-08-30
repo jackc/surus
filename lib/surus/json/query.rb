@@ -30,7 +30,9 @@ module Surus
         if options.key? :columns
           options[:columns]
         else
-          table_columns.map(&:name)
+          table_columns.map do |c|
+            "#{quoted_table_name}.#{connection.quote_column_name c.name}"
+          end
         end
       end
 
