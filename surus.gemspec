@@ -14,6 +14,7 @@ Gem::Specification.new do |s|
                     It also can control PostgreSQL synchronous commit behavior. By relaxing
                     PostgreSQL's durability guarantee, transaction commit rate can be increased by
                     50% or more. }
+  s.license     = 'MIT'
 
   s.rubyforge_project = ""
 
