@@ -1,3 +1,13 @@
+# 0.5.1 (August 29, 2014)
+
+* Quote assocation column names
+* Omitting 'as' results in syntax error with belongs to relationship (Michael J. Cohen)
+* Fix (find|all)_json when scope chain has joins with ambiguous names
+
+# 0.5.0 (August 19, 2013)
+
+* Rails 4 support
+
 # 0.4.2 (June 21, 2013)
 
 * Make pg a development dependency to allow usage with JRuby
