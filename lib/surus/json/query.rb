@@ -50,7 +50,7 @@ module Surus
             association_scope = HasAndBelongsToManyScopeBuilder.new(original_scope, association).scope
             ArrayAggQuery.new(association_scope, association_options).to_sql
           end
-          "(#{subquery}) as #{association_name}"
+          "(#{subquery}) #{connection.quote_column_name association_name}"
         end
       end
 

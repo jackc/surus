@@ -104,6 +104,15 @@ describe 'json' do
         expect(find_json).to eq(to_json)
       end
 
+      it 'includes has_many association with a PostgreSQL reserved word as name' do
+        user = FactoryGirl.create :user
+        posts = FactoryGirl.create_list :post, 2, author: user
+        user.reload
+        to_json = Oj.load user.to_json(include: :rows)
+        find_json = Oj.load User.find_json(user.id, include: :rows)
+        expect(find_json).to eq(to_json)
+      end
+
       it 'includes entire has_and_belongs_to_many association' do
         post = FactoryGirl.create :post
         tag = FactoryGirl.create :tag

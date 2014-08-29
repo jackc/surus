@@ -27,6 +27,9 @@ class User < ActiveRecord::Base
     -> { where subject: 'foo' },
     foreign_key: :author_id,
     class_name: 'Post'
+
+  # association name is reserved word in PostgreSQL
+  has_many :rows, foreign_key: :author_id, class_name: 'Post', table_name: 'posts'
 end
 
 class Forum < ActiveRecord::Base
