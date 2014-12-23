@@ -14,13 +14,13 @@ substantially faster than converting ActiveRecord objects to JSON.
 
     gem install surus
 
-Or add to your Gemfile.
+Or add to your Gemfile. This version of Surus only works on Rails 4.
 
     gem 'surus'
 
 ## Rails 3
 
-This version of Surus only works on Rails 4. Use the 0.4 line for Rails 3
+Use the 0.4 line for Rails 3
 
     gem 'surus', '~> 0.4.2'
 
@@ -47,6 +47,22 @@ Because it falls back to YAML serialization for complex types, this means that
 nested data structures can be serialized to an hstore. In other words, any
 hash that can be serialized with the normal Rails YAML serialization can be
 serialized with Surus.
+
+**Serialize example (Rails 3+)**:
+
+```ruby
+class User < ActiveRecord::Base
+  serialize :settings, Surus::Hstore::Serializer.new
+end
+```
+
+**Store example (Rails 4+)**:
+
+```ruby
+class User < ActiveRecord::Base
+  store :settings, accessors: [:session_timeout], coder: Surus::Hstore::Serializer.new
+end
+```
 
 # Array
 
