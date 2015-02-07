@@ -1,0 +1,5 @@
+test:
+  adapter: postgresql
+  encoding: unicode
+  username: postgres
+  database: surus_test
