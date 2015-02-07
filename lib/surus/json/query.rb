@@ -39,14 +39,31 @@ module Surus
       def association_columns
         included_associations_name_and_options.map do |association_name, association_options|
           association = klass.reflect_on_association association_name
-          subquery = case association
-          when ActiveRecord::Reflection::BelongsToReflection
+
+          # The way to get the association type is different in Rails 4.2 vs 4.0-4.1
+          association_type = if defined? ActiveRecord::Reflection::BelongsToReflection
+            # Rails 4.2+
+            case association
+            when ActiveRecord::Reflection::BelongsToReflection
+              :belongs_to
+            when ActiveRecord::Reflection::HasManyReflection
+              :has_many
+            when ActiveRecord::Reflection::HasAndBelongsToManyReflection
+              :has_and_belongs_to_many
+            end
+          else
+            # Rails 4.0-4.1
+            association.source_macro
+          end
+
+          subquery = case association_type
+          when :belongs_to
             association_scope = BelongsToScopeBuilder.new(original_scope, association).scope
             RowQuery.new(association_scope, association_options).to_sql
-          when ActiveRecord::Reflection::HasManyReflection
+          when :has_many
             association_scope = HasManyScopeBuilder.new(original_scope, association).scope
             ArrayAggQuery.new(association_scope, association_options).to_sql
-          when ActiveRecord::Reflection::HasAndBelongsToManyReflection
+          when :has_and_belongs_to_many
             association_scope = HasAndBelongsToManyScopeBuilder.new(original_scope, association).scope
             ArrayAggQuery.new(association_scope, association_options).to_sql
           end
