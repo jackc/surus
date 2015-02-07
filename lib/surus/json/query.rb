@@ -39,14 +39,14 @@ module Surus
       def association_columns
         included_associations_name_and_options.map do |association_name, association_options|
           association = klass.reflect_on_association association_name
-          subquery = case association.source_macro
-          when :belongs_to
+          subquery = case association
+          when ActiveRecord::Reflection::BelongsToReflection
             association_scope = BelongsToScopeBuilder.new(original_scope, association).scope
             RowQuery.new(association_scope, association_options).to_sql
-          when :has_many
+          when ActiveRecord::Reflection::HasManyReflection
             association_scope = HasManyScopeBuilder.new(original_scope, association).scope
             ArrayAggQuery.new(association_scope, association_options).to_sql
-          when :has_and_belongs_to_many
+          when ActiveRecord::Reflection::HasAndBelongsToManyReflection
             association_scope = HasAndBelongsToManyScopeBuilder.new(original_scope, association).scope
             ArrayAggQuery.new(association_scope, association_options).to_sql
           end
