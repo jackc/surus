@@ -35,4 +35,5 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'pry', '~> 0.9.11'
   s.add_development_dependency 'factory_girl', '~> 4.2.0'
   s.add_development_dependency 'faker', '~> 1.1.2'
+  s.add_development_dependency 'rake'
 end
