@@ -1,6 +1,8 @@
 Surus
 =====
 
+[![Build Status](https://travis-ci.org/jackc/surus.svg?branch=master)](https://travis-ci.org/jackc/surus)
+
 # Description
 
 Surus adds PostgreSQL specific functionality to ActiveRecord. It adds
