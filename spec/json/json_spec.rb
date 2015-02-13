@@ -22,6 +22,15 @@ describe 'json' do
       end
     end
 
+    context 'when scope chain has select' do
+      it 'uses the select for json' do
+        user = FactoryGirl.create :user
+        to_json = Oj.load user.to_json only: [:id, :name]
+        find_json = Oj.load User.select("id, name").find_json(user.id)
+        expect(find_json).to eq(to_json)
+      end
+    end
+
     context 'when scope chain has a joins with ambiguous column names' do
       it 'works' do
         user = FactoryGirl.create :user
@@ -167,6 +176,15 @@ describe 'json' do
       to_json = Oj.load users.to_json
       all_json = Oj.load User.all_json
       expect(all_json).to eq(to_json)
+    end
+
+    context 'when scope chain has select' do
+      it 'uses the select for json' do
+        users = FactoryGirl.create_list :user, 3
+        to_json = Oj.load users.to_json only: [:id, :name]
+        all_json = Oj.load User.select("id, name").all_json
+        expect(all_json).to eq(to_json)
+      end
     end
   end
 end
