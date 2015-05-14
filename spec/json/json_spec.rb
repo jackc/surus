@@ -69,6 +69,33 @@ describe 'json' do
         expect(find_json).to eq(to_json)
       end
 
+      it 'includes entire has_one object' do
+        user = FactoryGirl.create :user
+        to_json = Oj.load user.to_json(include: :bio)
+        find_json = Oj.load User.find_json(user.id, include: :bio)
+        expect(find_json).to eq(to_json)
+      end
+
+      it 'filters by has_one conditions' do
+        user = FactoryGirl.create :user
+        find_json = Oj.load User.find_json(user.id, include: :bio_with_impossible_conditions)
+        expect(find_json.fetch('bio_with_impossible_conditions')).to be_nil
+      end
+
+      it 'includes multiple entire has_one objects' do
+        user = FactoryGirl.create :user
+        to_json = Oj.load user.to_json(include: [:bio, :avatar])
+        find_json = Oj.load User.find_json(user.id, include: [:bio, :avatar])
+        expect(find_json).to eq(to_json)
+      end
+
+      it 'includes only selected columns of has_one object' do
+        user = FactoryGirl.create :user
+        to_json = Oj.load user.to_json(include: {bio: {only: [:id, :body]}})
+        find_json = Oj.load User.find_json(user.id, include: {bio: {columns: [:id, :body]}})
+        expect(find_json).to eq(to_json)
+      end
+
       it 'includes entire has_many association' do
         user = FactoryGirl.create :user
         posts = FactoryGirl.create_list :post, 2, author: user

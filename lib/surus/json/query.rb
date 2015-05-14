@@ -48,6 +48,8 @@ module Surus
           association_type = if defined? ActiveRecord::Reflection::BelongsToReflection
             # Rails 4.2+
             case association
+            when ActiveRecord::Reflection::HasOneReflection
+              :has_one
             when ActiveRecord::Reflection::BelongsToReflection
               :belongs_to
             when ActiveRecord::Reflection::HasManyReflection
@@ -63,6 +65,9 @@ module Surus
           subquery = case association_type
           when :belongs_to
             association_scope = BelongsToScopeBuilder.new(original_scope, association).scope
+            RowQuery.new(association_scope, association_options).to_sql
+          when :has_one
+            association_scope = HasManyScopeBuilder.new(original_scope, association).scope
             RowQuery.new(association_scope, association_options).to_sql
           when :has_many
             association_scope = HasManyScopeBuilder.new(original_scope, association).scope

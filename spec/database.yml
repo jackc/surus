@@ -2,3 +2,4 @@ test:
   adapter: postgresql
   encoding: unicode
   database: surus_test
+

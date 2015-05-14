@@ -17,5 +17,20 @@ FactoryGirl.define do
   factory :user, aliases: [:author] do
     name { Faker::Internet.user_name }
     email { Faker::Internet.email }
+    after(:build) do |user|
+      user.bio ||= FactoryGirl.build(:bio, author: user)
+      user.avatar ||= FactoryGirl.build(:avatar, author: user)
+    end
+  end
+
+  factory :bio do
+    author
+    body { Faker::Lorem.paragraph }
+    website_url { Faker::Internet.url }
+  end
+
+  factory :avatar do
+    author
+    url { Faker::Avatar.image }
   end
 end

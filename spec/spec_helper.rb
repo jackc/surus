@@ -30,6 +30,21 @@ class User < ActiveRecord::Base
 
   # association name is reserved word in PostgreSQL
   has_many :rows, foreign_key: :author_id, class_name: 'Post', table_name: 'posts'
+
+  has_one :bio, foreign_key: :author_id
+  has_one :avatar, foreign_key: :author_id
+  has_one :bio_with_impossible_conditions,
+    -> { where '1=2' },
+    foreign_key: :author_id,
+    class_name: 'Bio'
+end
+
+class Bio < ActiveRecord::Base
+  belongs_to :author, class_name: 'User'
+end
+
+class Avatar < ActiveRecord::Base
+  belongs_to :author, class_name: 'User'
 end
 
 class Forum < ActiveRecord::Base

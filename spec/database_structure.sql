@@ -62,6 +62,27 @@ CREATE TABLE users(
 
 
 
+DROP TABLE IF EXISTS bios CASCADE;
+
+CREATE TABLE bios(
+  id serial PRIMARY KEY,
+  body text NOT NULL,
+  website_url varchar NOT NULL,
+  author_id integer NOT NULL REFERENCES users
+);
+
+
+
+DROP TABLE IF EXISTS avatars CASCADE;
+
+CREATE TABLE avatars(
+  id serial PRIMARY KEY,
+  url varchar NOT NULL,
+  author_id integer NOT NULL REFERENCES users
+);
+
+
+
 DROP TABLE IF EXISTS forums CASCADE;
 
 CREATE TABLE forums(
