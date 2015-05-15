@@ -1,3 +1,8 @@
+# 0.6.0 (May 15, 2015)
+
+* find_json and all_json support has_one associations (Mathieu Dumont)
+* find_json and all_json preserve "select" scope unless columns or include arguments are present
+
 # 0.5.1 (August 29, 2014)
 
 * Quote assocation column names
