@@ -26,6 +26,23 @@ Use the 0.4 line for Rails 3
 
     gem 'surus', '~> 0.4.2'
 
+# JSON
+
+PostgreSQL 9.2 added `row_to_json` and `array_to_json` functions. These
+functions can be used to build JSON very quickly. Unfortunately, they are
+somewhat cumbersome to use. The `find_json` and `all_json` methods are easy to
+use wrappers around the lower level PostgreSQL functions that closely mimic
+the Rails `to_json` interface.
+
+    User.find_json 1
+    User.find_json 1, columns: [:id, :name, :email]
+    Post.find_json 1, include: :author
+    User.find_json(user.id, include: {posts: {columns: [:id, :subject]}})
+    User.all_json
+    User.where(admin: true).all_json
+    User.all_json(columns: [:id, :name, :email], include: {posts: {columns: [:id, :subject]}})
+    Post.all_json(include: [:forum, :post])
+
 # Hstore
 
 Hstores can be searched with helper scopes.
@@ -96,23 +113,6 @@ entire session or per transaction.
     User.synchronous_commit false
 
 Read more in the [PostgreSQL asynchronous commit documentation](http://www.postgresql.org/docs/9.1/interactive/wal-async-commit.html).
-
-# JSON
-
-PostgreSQL 9.2 added `row_to_json` and `array_to_json` functions. These
-functions can be used to build JSON very quickly. Unfortunately, they are
-somewhat cumbersome to use. The `find_json` and `all_json` methods are easy to
-use wrappers around the lower level PostgreSQL functions that closely mimic
-the Rails `to_json` interface.
-
-    User.find_json 1
-    User.find_json 1, columns: [:id, :name, :email]
-    Post.find_json 1, include: :author
-    User.find_json(user.id, include: {posts: {columns: [:id, :subject]}})
-    User.all_json
-    User.where(admin: true).all_json
-    User.all_json(columns: [:id, :name, :email], include: {posts: {columns: [:id, :subject]}})
-    Post.all_json(include: [:forum, :post])
 
 # Benchmarks
 
