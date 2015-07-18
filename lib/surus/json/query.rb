@@ -16,9 +16,9 @@ module Surus
 
       def subquery_sql
         if options.key?(:columns) || options.key?(:include)
-          select(columns.map(&:to_s).join(', ')).to_sql
+          select(columns.map(&:to_s).join(', ')).to_sql_with_binding_params
         else
-          original_scope.to_sql
+          original_scope.to_sql_with_binding_params
         end
       end
 
