@@ -1,3 +1,7 @@
+# 0.6.1 (July 18, 2015)
+
+* Fix all_json and prepared statements (mathieumahe)
+
 # 0.6.0 (May 15, 2015)
 
 * find_json and all_json support has_one associations (Mathieu Dumont)
