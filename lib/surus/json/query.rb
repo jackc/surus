@@ -15,11 +15,12 @@ module Surus
       end
 
       def subquery_sql
-        if options.key?(:columns) || options.key?(:include)
-          select(columns.map(&:to_s).join(', ')).to_sql_with_binding_params
+        scope = if options.key?(:columns) || options.key?(:include)
+          select(columns.map(&:to_s).join(', '))
         else
-          original_scope.to_sql_with_binding_params
+          original_scope
         end
+	(scope.respond_to?(:to_sql_with_binding_params) ? scope.to_sql_with_binding_params : scope.to_sql)
       end
 
       def columns
