@@ -3,7 +3,7 @@ class InstallHstore < ActiveRecord::Migration
     version = ActiveRecord::Base.connection.send(:postgresql_version)
     # check for newer versions
     if version >= 90100
-      sql = "CREATE EXTENSION hstore"
+      sql = "CREATE EXTENSION IF NOT EXISTS hstore"
     # use the hstore.sql file on the system, if found
     elsif(path = hstore_sql_path)
       sql = File.read(path)
@@ -29,7 +29,7 @@ private
   rescue Errno::ENOENT # if `pg_config` fails
     nil
   end
-  
+
   def default_sql
     hstore_sql = <<-HSTORE_SQL
 /* $PostgreSQL: pgsql/contrib/hstore/hstore.sql.in,v 1.11 2009/06/11 18:30:03 tgl Exp $ */
@@ -299,6 +299,6 @@ AS
 	FUNCTION        4       gin_consistent_hstore(internal, int2, internal, int4, internal, internal),
 STORAGE         text;
 HSTORE_SQL
-    
+
   end
 end
