@@ -3,7 +3,7 @@ require 'faker'
 require 'factory_girl'
 FactoryGirl.find_definitions
 
-print "Generating test data... "
+print 'Generating test data... '
 
 clean_database
 
@@ -16,7 +16,7 @@ Forum.transaction do
   end
 end
 
-puts "Done."
+puts 'Done.'
 
 num_short_iterations = 500
 num_long_iterations = 20

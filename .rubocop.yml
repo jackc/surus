@@ -1,0 +1,18 @@
+Metrics/LineLength:
+  Max: 140
+Documentation:
+  Enabled: false
+Metrics/CyclomaticComplexity:
+  Max: 10
+Metrics/PerceivedComplexity:
+  Max: 11
+Metrics/MethodLength:
+  Max: 20
+Metrics/AbcSize:
+  Max: 25
+
+AllCops:
+  Exclude:
+    - surus.gemspec
+    - Guardfile
+    - Rakefile

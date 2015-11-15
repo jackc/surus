@@ -3,8 +3,8 @@ require 'benchmark'
 require 'securerandom'
 require 'optparse'
 
-database_config = YAML.load_file(File.expand_path("../database.yml", __FILE__))
-ActiveRecord::Base.establish_connection database_config["bench"]
+database_config = YAML.load_file(File.expand_path('../database.yml', __FILE__))
+ActiveRecord::Base.establish_connection database_config['bench']
 
 class YamlKeyValueRecord < ActiveRecord::Base
   serialize :properties
@@ -16,6 +16,7 @@ end
 
 class EavMasterRecord < ActiveRecord::Base
   has_many :eav_detail_records
+  attr_writer :properties
 
   def properties
     @properties ||= eav_detail_records.each_with_object({}) do |d, hash|
@@ -23,15 +24,11 @@ class EavMasterRecord < ActiveRecord::Base
     end
   end
 
-  def properties=(value)
-    @properties = value
-  end
-
   after_save :persist_properties
   def persist_properties
     eav_detail_records.clear
-    @properties.each do |k,v|
-      eav_detail_records.create! :key => k, :value => v
+    @properties.each do |k, v|
+      eav_detail_records.create! key: k, value: v
     end
   end
 end
