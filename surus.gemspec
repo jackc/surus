@@ -3,10 +3,11 @@ $:.push File.expand_path("../lib", __FILE__)
 require "surus/version"
 
 Gem::Specification.new do |s|
-  s.name        = "surus"
+  s.name        = 'surus'
   s.version     = Surus::VERSION
-  s.authors     = ["Jack Christensen"]
-  s.email       = ["jack@jackchristensen.com"]
+  s.platform    = Gem::Platform::RUBY
+  s.authors     = ['Jack Christensen']
+  s.email       = ['jack@jackchristensen.com']
   s.homepage    = "https://github.com/JackC/surus"
   s.summary     = %q{PostgreSQL Acceleration for ActiveRecord}
   s.description = %q{Surus accelerates ActiveRecord with PostgreSQL specific types and
@@ -24,16 +25,17 @@ Gem::Specification.new do |s|
   s.require_paths = ["lib"]
 
   # specify any dependencies here; for example:
+  # Platform specific dependency
   s.add_dependency 'activerecord', "~> 4.0"
-
+  s.add_development_dependency 'oj', '~> 2.0.2'
+  s.add_development_dependency 'pg'
+  s.add_development_dependency 'pry', '~> 0.9.11'
   s.add_development_dependency 'rspec', "~> 3.1.0"
   s.add_development_dependency 'guard', ">= 0.10.0"
   s.add_development_dependency 'guard-rspec'
   s.add_development_dependency 'rb-fsevent', '~> 0.9.1'
-  s.add_development_dependency 'oj', '~> 2.0.2'
-  s.add_development_dependency 'pg'
-  s.add_development_dependency 'pry', '~> 0.9.11'
   s.add_development_dependency 'factory_girl', '~> 4.2.0'
   s.add_development_dependency 'faker', '~> 1.4.3'
   s.add_development_dependency 'rake'
+  s.add_development_dependency 'rubocop'
 end

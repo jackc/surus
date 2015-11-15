@@ -3,8 +3,8 @@ module Surus
     class HasManyScopeBuilder < AssociationScopeBuilder
       def scope
         s = association
-          .klass
-          .where("#{outside_primary_key}=#{association_foreign_key}")
+            .klass
+            .where("#{outside_primary_key}=#{association_foreign_key}")
         s = s.instance_eval(&association.scope) if association.scope
         s
       end

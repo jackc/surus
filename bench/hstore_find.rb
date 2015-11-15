@@ -32,43 +32,42 @@ num_key_value_pairs = options[:pairs]
 eav = options[:eav]
 yaml = options[:yaml]
 
-puts "Skipping EAV test. Use -e to enable (VERY SLOW!)" unless eav
-puts "Skipping YAML test. Use -y to enable (VERY SLOW!)" unless yaml
+puts 'Skipping EAV test. Use -e to enable (VERY SLOW!)' unless eav
+puts 'Skipping YAML test. Use -y to enable (VERY SLOW!)' unless yaml
 
 key_value_pairs = num_records.times.map do
-  num_key_value_pairs.times.each_with_object({}) do |n, hash|
+  num_key_value_pairs.times.each_with_object({}) do |_n, hash|
     hash[SecureRandom.hex(2)] = SecureRandom.hex(4)
   end
 end
 
 if eav
-  print "Creating EAV test data... "
+  print 'Creating EAV test data... '
   EavMasterRecord.transaction do
     num_records.times do |i|
-      EavMasterRecord.create! :properties => key_value_pairs[i]
+      EavMasterRecord.create! properties: key_value_pairs[i]
     end
   end
-  puts "Done."
+  puts 'Done.'
 end
 
-print "Creating Surus test data... "
+print 'Creating Surus test data... '
 SurusKeyValueRecord.transaction do
   num_records.times do |i|
-    SurusKeyValueRecord.create! :properties => key_value_pairs[i]
+    SurusKeyValueRecord.create! properties: key_value_pairs[i]
   end
 end
-puts "Done."
+puts 'Done.'
 
 if yaml
-  print "Creating YAML test data... "
+  print 'Creating YAML test data... '
   YamlKeyValueRecord.transaction do
     num_records.times do |i|
-      YamlKeyValueRecord.create! :properties => key_value_pairs[i]
+      YamlKeyValueRecord.create! properties: key_value_pairs[i]
     end
   end
-  puts "Done."
+  puts 'Done.'
 end
-
 
 num_finds = 200
 keys_to_find = key_value_pairs.sample(num_finds).map { |h| h.keys.sample }
@@ -77,26 +76,29 @@ puts
 puts "#{num_records} records with #{num_key_value_pairs} string key/value pairs"
 puts "Finding all by inclusion of a key #{num_finds} times"
 
+EXIST_QUERY = 'EXISTS(SELECT 1 FROM eav_detail_records ' \
+              'WHERE eav_master_records.id=eav_detail_records.eav_master_record_id AND key=?)'.freeze
+
 Benchmark.bm(8) do |x|
   if eav
-    x.report("EAV") do
+    x.report('EAV') do
       keys_to_find.each do |key_to_find|
         EavMasterRecord
           .includes(:eav_detail_records)
-          .where("EXISTS(SELECT 1 FROM eav_detail_records WHERE eav_master_records.id=eav_detail_records.eav_master_record_id AND key=?)", key_to_find)
+          .where(EXIST_QUERY, key_to_find)
           .to_a
       end
     end
   end
 
-  x.report("Surus") do
+  x.report('Surus') do
     keys_to_find.each do |key_to_find|
       SurusKeyValueRecord.hstore_has_key(:properties, key_to_find).to_a
     end
   end
 
   if yaml
-    x.report("YAML") do
+    x.report('YAML') do
       keys_to_find.each do |key_to_find|
         YamlKeyValueRecord.to_a.select { |r| r.properties.key?(key_to_find) }
       end

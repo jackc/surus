@@ -6,7 +6,7 @@ FactoryGirl.define do
   factory :post do
     forum
     author
-    subject { Faker::Lorem.sentence  }
+    subject { Faker::Lorem.sentence }
     body { Faker::Lorem.paragraph }
   end
 
