@@ -1,3 +1,7 @@
+# 0.6.2 (November 19, 2015)
+
+* Prefix column name with table names in query conditions (Michał Krzyżanowski)
+
 # 0.6.1 (July 18, 2015)
 
 * Fix all_json and prepared statements (mathieumahe)
