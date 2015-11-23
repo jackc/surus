@@ -58,7 +58,7 @@ describe Surus::Hstore::Serializer do
 
   round_trip_examples.each do |value, description|
     it "round trips when #{description}" do
-      r = HstoreRecord.create! :properties => value
+      r = HstoreRecord.create! properties: value
       r.reload
       expect(r.properties).to eq(value)
     end

@@ -31,7 +31,7 @@ class EavMasterRecord < ActiveRecord::Base
   def persist_properties
     eav_detail_records.clear
     @properties.each do |k,v|
-      eav_detail_records.create! :key => k, :value => v
+      eav_detail_records.create! key: k, value: v
     end
   end
 end

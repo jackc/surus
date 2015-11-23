@@ -45,7 +45,7 @@ if eav
   print "Creating EAV test data... "
   EavMasterRecord.transaction do
     num_records.times do |i|
-      EavMasterRecord.create! :properties => key_value_pairs[i]
+      EavMasterRecord.create! properties: key_value_pairs[i]
     end
   end
   puts "Done."
@@ -54,7 +54,7 @@ end
 print "Creating Surus test data... "
 SurusKeyValueRecord.transaction do
   num_records.times do |i|
-    SurusKeyValueRecord.create! :properties => key_value_pairs[i]
+    SurusKeyValueRecord.create! properties: key_value_pairs[i]
   end
 end
 puts "Done."
@@ -63,7 +63,7 @@ if yaml
   print "Creating YAML test data... "
   YamlKeyValueRecord.transaction do
     num_records.times do |i|
-      YamlKeyValueRecord.create! :properties => key_value_pairs[i]
+      YamlKeyValueRecord.create! properties: key_value_pairs[i]
     end
   end
   puts "Done."

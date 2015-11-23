@@ -14,7 +14,7 @@ module Surus
       # Example:
       #   User.hstore_has_key(:properties, "favorite_color")
       def hstore_has_key(column, key)
-        where("#{connection.quote_table_name(table_name)}.#{connection.quote_column_name(column)} ? :key", :key => key)
+        where("#{connection.quote_table_name(table_name)}.#{connection.quote_column_name(column)} ? :key", key: key)
       end
 
       # Adds a where condition that requires column to contain all keys.
@@ -23,7 +23,7 @@ module Surus
       #    User.hstore_has_all_keys(:properties, "favorite_color", "favorite_song")
       #    User.hstore_has_all_keys(:properties, ["favorite_color", "favorite_song"])
       def hstore_has_all_keys(column, *keys)
-        where("#{connection.quote_table_name(table_name)}.#{connection.quote_column_name(column)} ?& ARRAY[:keys]", :keys => keys.flatten)
+        where("#{connection.quote_table_name(table_name)}.#{connection.quote_column_name(column)} ?& ARRAY[:keys]", keys: keys.flatten)
       end
 
       # Adds a where condition that requires column to contain any keys.
@@ -32,7 +32,7 @@ module Surus
       #    User.hstore_has_any_keys(:properties, "favorite_color", "favorite_song")
       #    User.hstore_has_any_keys(:properties, ["favorite_color", "favorite_song"])
       def hstore_has_any_keys(column, *keys)
-        where("#{connection.quote_table_name(table_name)}.#{connection.quote_column_name(column)} ?| ARRAY[:keys]", :keys => keys.flatten)
+        where("#{connection.quote_table_name(table_name)}.#{connection.quote_column_name(column)} ?| ARRAY[:keys]", keys: keys.flatten)
       end
     end
   end

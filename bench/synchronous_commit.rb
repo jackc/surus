@@ -20,22 +20,22 @@ puts "Done."
 random_io = StringIO.new(random_string)
 
 create_wide_record = lambda do
-  WideRecord.create! :a => random_io.read(wide_field_width),
-    :b => random_io.read(wide_field_width),
-    :c => random_io.read(wide_field_width),
-    :d => random_io.read(wide_field_width),
-    :e => random_io.read(wide_field_width),
-    :f => random_io.read(wide_field_width),
-    :g => random_io.read(wide_field_width),
-    :h => random_io.read(wide_field_width),
-    :i => random_io.read(wide_field_width),
-    :j => random_io.read(wide_field_width)
+  WideRecord.create! a: random_io.read(wide_field_width),
+    b: random_io.read(wide_field_width),
+    c: random_io.read(wide_field_width),
+    d: random_io.read(wide_field_width),
+    e: random_io.read(wide_field_width),
+    f: random_io.read(wide_field_width),
+    g: random_io.read(wide_field_width),
+    h: random_io.read(wide_field_width),
+    i: random_io.read(wide_field_width),
+    j: random_io.read(wide_field_width)
 end
 
 create_narrow_record = lambda do
-  NarrowRecord.create! :a => random_io.read(narrow_field_width),
-    :b => random_io.read(narrow_field_width),
-    :c => random_io.read(narrow_field_width)
+  NarrowRecord.create! a: random_io.read(narrow_field_width),
+    b: random_io.read(narrow_field_width),
+    c: random_io.read(narrow_field_width)
 end
 
 { "narrow" => create_narrow_record, "wide" => create_wide_record }.each do |text, create_record|

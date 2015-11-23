@@ -3,7 +3,7 @@ module Surus
     # synchronous_commit and synchronous_commit= are delegated to the underlying
     # connection object
     module Model
-      delegate :synchronous_commit, :synchronous_commit=, :to => :connection
+      delegate :synchronous_commit, :synchronous_commit=, to: :connection
     end
   end
 end

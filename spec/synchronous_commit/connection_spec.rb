@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Surus::SynchronousCommit::Connection, :disable_transactions => true do
+describe Surus::SynchronousCommit::Connection, disable_transactions: true do
   let(:conn) { ActiveRecord::Base.connection }
   before { conn.execute "SET synchronous_commit TO ON;" }
   after { conn.execute "SET synchronous_commit TO ON;" }
