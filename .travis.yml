@@ -15,3 +15,7 @@ before_script:
   - cp spec/database.yml.travis spec/database.yml
   - psql -U postgres -c 'create database surus_test;'
   - psql -U postgres -f spec/database_structure.sql surus_test
+
+script:
+  - bundle exec rake spec
+  - bundle exec rubocop
