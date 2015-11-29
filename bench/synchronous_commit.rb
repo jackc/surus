@@ -48,15 +48,15 @@ end
     WideRecord.synchronous_commit true
     x.report("enabled") do
       num_records.times { create_record.call }
-    end 
+    end
 
     clean_database
     random_io.rewind
     WideRecord.synchronous_commit false
     x.report("disabled") do
       num_records.times { create_record.call }
-    end   
-    
+    end
+
     clean_database
     random_io.rewind
     WideRecord.synchronous_commit true
@@ -68,7 +68,7 @@ end
         end
       end
     end
-    
+
     clean_database
     random_io.rewind
     WideRecord.synchronous_commit true
@@ -76,8 +76,8 @@ end
       WideRecord.transaction do
         num_records.times { create_record.call }
       end
-    end   
-    
+    end
+
     clean_database
     random_io.rewind
     WideRecord.synchronous_commit false
@@ -85,6 +85,6 @@ end
       WideRecord.transaction do
         num_records.times { create_record.call }
       end
-    end  
+    end
   end
 end
