@@ -12,14 +12,14 @@ module Surus
           self.synchronous_commit = value
         end
       end
-      
+
       # Changes current synchronous_commit state. If a transaction is currently
       # in progress the change will be reverted at the end of the transaction.
       #
       # Requires true or false to be passed exactly -- not merely truthy or falsy
       def synchronous_commit=(value)
         raise ArgumentError, "argument must be true or false" unless value == true || value == false
-        
+
         execute "SET #{'LOCAL' if open_transactions > 0} synchronous_commit TO #{value ? 'ON' : 'OFF'}"
       end
     end

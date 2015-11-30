@@ -281,27 +281,12 @@ Style/Tab:
     - 'lib/generators/surus/hstore/templates/install_hstore.rb'
     - 'lib/surus/json/query.rb'
 
-# Offense count: 2
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, SupportedStyles.
-Style/TrailingBlankLines:
-  Exclude:
-    - 'Guardfile'
-    - 'spec/spec_helper.rb'
-
 # Offense count: 1
 # Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyleForMultiline, SupportedStyles.
 Style/TrailingComma:
   Exclude:
     - 'spec/hstore/serializer_spec.rb'
-
-# Offense count: 9
-# Cop supports --auto-correct.
-Style/TrailingWhitespace:
-  Exclude:
-    - 'bench/synchronous_commit.rb'
-    - 'lib/surus/synchronous_commit/connection.rb'
 
 # Offense count: 1
 # Cop supports --auto-correct.
