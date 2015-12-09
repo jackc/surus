@@ -63,4 +63,14 @@ describe Surus::Hstore::Serializer do
       expect(r.properties).to eq(value)
     end
   end
+
+  context 'Stringify' do
+    it 'should store the values as UTC for Date' do
+      date = ::Time.find_zone!('Melbourne').now.to_datetime
+      serializer = Surus::Hstore::Serializer.new
+      result = serializer.stringify date
+      expect(result).to eq([date.to_s(:db), "Date"])
+      expect(result).to_not eq([date.to_s, "Date"])
+    end
+  end
 end
