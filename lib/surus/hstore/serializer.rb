@@ -85,8 +85,8 @@ module Surus
       TYPES_TO_STRING = [Symbol, Integer, Float, BigDecimal, TrueClass, FalseClass].freeze
       TYPE_KEYS = { string: 'String', yaml: 'YAML' }.freeze
       def stringify(value)
-        return [value, TYPE_KEYS[:string]] if value.is_a? String
-        return [value.to_s(:db), 'Date'] if value.is_a? Date
+        return [value, TYPE_KEYS[:string]] if value.is_a?(String)
+        return [value.to_s(:db), 'Date'] if value.is_a?(Date)
         to_string_type = TYPES_TO_STRING.select { |type| value.is_a? type }
         return [value.to_s, to_string_type.first.to_s] if to_string_type.count > 0
         return [nil, TYPE_KEYS[:string]] if value.nil?
