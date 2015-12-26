@@ -10,6 +10,10 @@ gemfile:
   - gemfiles/4.1.gemfile
   - gemfiles/4.2.gemfile
 
+matrix:
+  allow_failures:
+    - rvm: rbx-2.9
+
 addons:
   postgresql: "9.2"
 
