@@ -4,7 +4,7 @@ rvm:
   - 2.2.4
   - 2.1.8
   - 2.0.0
-  - rbx-2.9
+  - rbx
 gemfile:
   - gemfiles/4.0.gemfile
   - gemfiles/4.1.gemfile
@@ -12,7 +12,7 @@ gemfile:
 
 matrix:
   allow_failures:
-    - rvm: rbx-2.9
+    - rvm: rbx
 
 addons:
   postgresql: "9.2"
