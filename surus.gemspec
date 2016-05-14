@@ -27,8 +27,6 @@ Gem::Specification.new do |s|
   s.add_dependency 'activerecord', "> 4.1"
 
   s.add_development_dependency 'rspec', "~> 3.1.0"
-  s.add_development_dependency 'guard', ">= 0.10.0"
-  s.add_development_dependency 'guard-rspec'
   s.add_development_dependency 'rb-fsevent', '~> 0.9.1'
   s.add_development_dependency 'oj', '~> 2.0.2'
   s.add_development_dependency 'pg'
