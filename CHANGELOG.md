@@ -1,3 +1,7 @@
+# 0.6.3 (May 14, 2016)
+
+* Gemspec allows Rails 5
+
 # 0.6.2 (November 19, 2015)
 
 * Prefix column name with table names in query conditions (Michał Krzyżanowski)
