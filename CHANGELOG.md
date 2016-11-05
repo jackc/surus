@@ -1,3 +1,7 @@
+# 0.6.4 (November 5, 2016)
+
+* Fix has_and_belongs_to_many scope with non-standard primary key (Nick Inhofe)
+
 # 0.6.3 (May 14, 2016)
 
 * Gemspec allows Rails 5
