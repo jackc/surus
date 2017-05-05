@@ -26,11 +26,11 @@ Gem::Specification.new do |s|
   # specify any dependencies here; for example:
   s.add_dependency 'activerecord', "> 4.1"
 
-  s.add_development_dependency 'rspec', "~> 3.1.0"
-  s.add_development_dependency 'rb-fsevent', '~> 0.9.1'
-  s.add_development_dependency 'oj', '~> 2.0.2'
+  s.add_development_dependency 'rspec'
+  s.add_development_dependency 'rb-fsevent'
+  s.add_development_dependency 'oj'
   s.add_development_dependency 'pg'
-  s.add_development_dependency 'pry', '~> 0.9.11'
+  s.add_development_dependency 'pry'
   s.add_development_dependency 'factory_girl', '~> 4.2.0'
   s.add_development_dependency 'faker', '~> 1.4.3'
   s.add_development_dependency 'rake'
