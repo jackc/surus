@@ -2,7 +2,8 @@ language: ruby
 sudo: false
 cache: bundler
 rvm:
-  - 2.3.1
+  - 2.4.1
+  - 2.3.4
   - 2.2.5
   - 2.1.10
   - rbx
@@ -10,6 +11,7 @@ gemfile:
   - gemfiles/4.1.gemfile
   - gemfiles/4.2.gemfile
   - gemfiles/5.0.gemfile
+  - gemfiles/5.1.gemfile
 
 matrix:
   allow_failures:
@@ -25,4 +27,3 @@ before_script:
 
 script:
   - bundle exec rake spec
-  - bundle exec rubocop
