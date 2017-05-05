@@ -16,7 +16,7 @@ substantially faster than converting ActiveRecord objects to JSON.
 
     gem install surus
 
-Or add to your Gemfile. This version of Surus only works on Rails 4.1+.
+Or add to your Gemfile. This version of Surus only works on Rails 4.2+.
 
     gem 'surus'
 
