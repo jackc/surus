@@ -1,3 +1,9 @@
+# 0.6.5 (May 5, 2017)
+
+* Qualify column references with table names (Zach Schneider)
+* Tested against Rails 5.1 and Ruby 2.4
+* Dropped Rails 4.1 and Ruby 2.1 support
+
 # 0.6.4 (November 5, 2016)
 
 * Fix has_and_belongs_to_many scope with non-standard primary key (Nick Inhofe)
