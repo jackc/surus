@@ -1,3 +1,4 @@
+require 'pry'
 module Surus
   module Hstore
     class Serializer
@@ -81,28 +82,15 @@ module Surus
       end
 
       # Returns an array of value as a string and value type
+      TYPES_TO_STRING = [Symbol, Integer, Float, BigDecimal, TrueClass, FalseClass].freeze
+      TYPE_KEYS = { string: 'String', yaml: 'YAML' }.freeze
       def stringify(value)
-        if value.kind_of?(String)
-          [value, "String"]
-        elsif value.kind_of?(Symbol)
-          [value.to_s, "Symbol"]
-        elsif value.kind_of?(Integer)
-          [value.to_s, "Integer"]
-        elsif value.kind_of?(Float)
-          [value.to_s, "Float"]
-        elsif value.kind_of?(BigDecimal)
-          [value.to_s, "BigDecimal"]
-        elsif value.kind_of?(Date)
-          [value.to_s(:db), "Date"]
-        elsif value.kind_of?(TrueClass)
-          [value.to_s, "TrueClass"]
-        elsif value.kind_of?(FalseClass)
-          [value.to_s, "FalseClass"]
-        elsif value == nil
-          [nil, "String"] # we don't actually stringify nil because format_value special cases nil
-        else
-          [YAML.dump(value), "YAML"]
-        end
+        return [value, TYPE_KEYS[:string]] if value.is_a?(String)
+        return [value.to_s(:db), 'Date'] if value.is_a?(Date)
+        to_string_type = TYPES_TO_STRING.select { |type| value.is_a? type }
+        return [value.to_s, to_string_type.first.to_s] if to_string_type.count > 0
+        return [nil, TYPE_KEYS[:string]] if value.nil?
+        [YAML.dump(value), TYPE_KEYS[:yaml]]
       end
 
       def typecast(value, type)
