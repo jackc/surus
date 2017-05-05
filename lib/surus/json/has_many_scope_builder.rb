@@ -14,7 +14,7 @@ module Surus
       end
 
       def association_foreign_key
-        "#{connection.quote_column_name association.foreign_key}"
+        "#{association.quoted_table_name}.#{connection.quote_column_name association.foreign_key}"
       end
     end
   end
