@@ -194,6 +194,60 @@ describe 'json' do
         find_json = Oj.load User.find_json(user.id, include: {posts: {columns: [:id], include: :forum}})
         expect(find_json).to eq(to_json)
       end
+
+      context 'assocation table has the belongs_to' do
+        it 'includes entire has_many through association' do
+          user = FactoryGirl.create :user
+          post = FactoryGirl.create :post, author: user
+          FactoryGirl.create :comment, post: post
+          FactoryGirl.create :comment, post: post
+
+          to_json = Oj.load user.to_json(include: :comments)
+          find_json = Oj.load User.find_json(user.id, include: :comments)
+          expect(find_json).to eq(to_json)
+        end
+
+        it 'excludes other has_many through association records' do
+          user = FactoryGirl.create :user
+          post = FactoryGirl.create :post, author: user
+          FactoryGirl.create :comment, post: post
+          FactoryGirl.create :comment, post: post
+
+          other_post = FactoryGirl.create :post, author: user
+          FactoryGirl.create :comment, post: other_post
+          FactoryGirl.create :comment, post: other_post
+
+          to_json = Oj.load user.to_json(include: :comments)
+          find_json = Oj.load User.find_json(user.id, include: :comments)
+          expect(find_json).to eq(to_json)
+        end
+      end
+
+      context 'through table has the belongs_to' do
+        it 'includes entire has_many through association when ' do
+          post = FactoryGirl.create :post
+          media = FactoryGirl.create :media
+          post.medias << media
+
+          to_json = Oj.load post.to_json(include: :medias)
+          find_json = Oj.load Post.find_json(post.id, include: :medias)
+          expect(find_json).to eq(to_json)
+        end
+
+        it 'excludes other has_many through association records' do
+          post = FactoryGirl.create :post
+          media = FactoryGirl.create :media
+          post.medias << media
+
+          other_post = FactoryGirl.create :post
+          other_media = FactoryGirl.create :media
+          other_post.medias << other_media
+
+          to_json = Oj.load post.to_json(include: :medias)
+          find_json = Oj.load Post.find_json(post.id, include: :medias)
+          expect(find_json).to eq(to_json)
+        end
+      end
     end
   end
 

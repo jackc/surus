@@ -120,3 +120,33 @@ CREATE TABLE posts_tags(
   tag_id integer NOT NULL REFERENCES tags,
   PRIMARY KEY (post_id, tag_id)
 );
+
+
+
+DROP TABLE IF EXISTS comments CASCADE;
+
+CREATE TABLE comments(
+  id serial PRIMARY KEY,
+  post_id integer NOT NULL REFERENCES posts,
+  name varchar NOT NULL,
+  body varchar NOT NULL
+);
+
+
+
+DROP TABLE IF EXISTS medias CASCADE;
+
+CREATE TABLE medias(
+  id serial PRIMARY KEY,
+  url varchar NOT NULL
+);
+
+
+
+DROP TABLE IF EXISTS post_medias CASCADE;
+
+CREATE TABLE post_medias(
+  id serial PRIMARY KEY,
+  post_id integer NOT NULL REFERENCES posts,
+  media_id integer NOT NULL REFERENCES medias
+);

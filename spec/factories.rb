@@ -33,4 +33,19 @@ FactoryGirl.define do
     author
     url { Faker::Avatar.image }
   end
+
+  factory :comment do
+    post
+    name { Faker::Name.name }
+    body { Faker::Lorem.paragraph }
+  end
+
+  factory :media do
+    url { Faker::Internet.url }
+  end
+
+  factory :post_media do
+    post
+    media
+  end
 end

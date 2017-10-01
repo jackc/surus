@@ -27,6 +27,7 @@ class User < ActiveRecord::Base
     -> { where subject: 'foo' },
     foreign_key: :author_id,
     class_name: 'Post'
+  has_many :comments, through: :posts
 
   # association name is reserved word in PostgreSQL
   has_many :rows, foreign_key: :author_id, class_name: 'Post', table_name: 'posts'
@@ -59,10 +60,28 @@ class Post < ActiveRecord::Base
     foreign_key: :forum_id,
     class_name: 'Forum'
   has_and_belongs_to_many :tags
+  has_many :comments
+
+  has_many :post_medias
+  has_many :medias, through: :post_medias
 end
 
 class Tag < ActiveRecord::Base
   has_and_belongs_to_many :posts
+end
+
+class Comment < ActiveRecord::Base
+  belongs_to :post
+end
+
+class Media < ActiveRecord::Base
+  self.table_name = "medias"
+end
+
+class PostMedia < ActiveRecord::Base
+  self.table_name = "post_medias"
+  belongs_to :post
+  belongs_to :media
 end
 
 FactoryGirl.find_definitions
