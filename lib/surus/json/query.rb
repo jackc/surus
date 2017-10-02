@@ -55,6 +55,8 @@ module Surus
               :belongs_to
             when ActiveRecord::Reflection::HasManyReflection
               :has_many
+            when ActiveRecord::Reflection::ThroughReflection
+              :has_many_through
             when ActiveRecord::Reflection::HasAndBelongsToManyReflection
               :has_and_belongs_to_many
             end
@@ -72,6 +74,9 @@ module Surus
             RowQuery.new(association_scope, association_options).to_sql
           when :has_many
             association_scope = HasManyScopeBuilder.new(original_scope, association).scope
+            ArrayAggQuery.new(association_scope, association_options).to_sql
+          when :has_many_through
+            association_scope = HasManyThroughScopeBuilder.new(original_scope, association).scope
             ArrayAggQuery.new(association_scope, association_options).to_sql
           when :has_and_belongs_to_many
             association_scope = HasAndBelongsToManyScopeBuilder.new(original_scope, association).scope
