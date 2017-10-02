@@ -1,3 +1,7 @@
+# 0.7.0 (October 2, 2017)
+
+* Support JSON has_many :though relationships (Peter Schilling)
+
 # 0.6.5 (May 5, 2017)
 
 * Qualify column references with table names (Zach Schneider)
