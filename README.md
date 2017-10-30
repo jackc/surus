@@ -160,7 +160,9 @@ adjust the amount of test data.
 4. Run benchmark scripts from root of gem directory (remember pass ruby
    the include paths for lib and bench)
 
+## Known issues
 
+* If you use `ActiveRecord#eager_load` with `all_json` all of the fields get renamed to `t0_r0`, `t0_r1` ...
 
 # License
 
