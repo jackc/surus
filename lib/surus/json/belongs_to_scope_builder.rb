@@ -10,11 +10,11 @@ module Surus
       end
 
       def association_primary_key
-        "#{association.quoted_table_name}.#{quote_column_name association.active_record_primary_key}"
+        "#{quote_table_name association.table_name}.#{quote_column_name association.active_record_primary_key}"
       end
 
       def association_foreign_key
-        "#{outside_class.quoted_table_name}.#{quote_column_name association.foreign_key}"
+        "#{quote_table_name outside_class.table_name}.#{quote_column_name association.foreign_key}"
       end
     end
   end
