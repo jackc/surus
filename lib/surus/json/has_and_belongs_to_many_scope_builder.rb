@@ -5,33 +5,33 @@ module Surus
         s = association
           .klass
           .joins("JOIN #{join_table} ON #{join_table}.#{association_foreign_key}=#{association_table}.#{association_primary_key}")
-          .where("#{outside_class.quoted_table_name}.#{primary_key}=#{join_table}.#{foreign_key}")
+          .where("#{quote_table_name outside_class.table_name}.#{primary_key}=#{join_table}.#{foreign_key}")
         s = s.instance_eval(&association.scope) if association.scope
         s
       end
 
       def join_table
-        connection.quote_table_name association.join_table
+        quote_table_name association.join_table
       end
 
       def primary_key
-        connection.quote_table_name association.active_record_primary_key
+        quote_table_name association.active_record_primary_key
       end
 
       def association_foreign_key
-        connection.quote_column_name association.association_foreign_key
+        quote_column_name association.association_foreign_key
       end
 
       def foreign_key
-        connection.quote_column_name association.foreign_key
+        quote_column_name association.foreign_key
       end
 
       def association_table
-        connection.quote_table_name association.klass.table_name
+        quote_table_name association.klass.table_name
       end
 
       def association_primary_key
-        connection.quote_column_name association.association_primary_key
+        quote_column_name association.association_primary_key
       end
 
     end

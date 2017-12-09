@@ -30,7 +30,7 @@ module Surus
       end
 
       def outside_table
-        outside_class.quoted_table_name
+        quote_table_name outside_class.table_name
       end
 
       def outside_primary_key
@@ -42,7 +42,7 @@ module Surus
       end
 
       def through_table
-        through_reflection.quoted_table_name
+        quote_table_name through_reflection.table_name
       end
 
       def through_primary_key
