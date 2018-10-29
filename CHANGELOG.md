@@ -1,3 +1,7 @@
+# 0.7.1 (October 29, 2018)
+
+* Remove use of `quoted_table_name` for Rails 5.2 compatibility (Peter Schilling)
+
 # 0.7.0 (October 2, 2017)
 
 * Support JSON has_many :though relationships (Peter Schilling)
