@@ -16,8 +16,6 @@ Gem::Specification.new do |s|
                     50% or more. }
   s.license     = 'MIT'
 
-  s.rubyforge_project = ""
-
   s.files         = `git ls-files`.split("\n")
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
   s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
